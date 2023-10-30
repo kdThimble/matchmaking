@@ -67,7 +67,7 @@ class _HomepageState extends State<Homepage> {
           // Blue rounded container
           Container(
             height: 250,
-            decoration: BoxDecoration(
+            decoration: const BoxDecoration(
               color: Color(0xFF5D56F3),
               borderRadius: BorderRadius.only(
                 bottomLeft: Radius.circular(50.0),
@@ -104,7 +104,7 @@ class _HomepageState extends State<Homepage> {
                             crossAxisAlignment: CrossAxisAlignment.end,
                             children: [
                               const SizedBox(width: 12),
-                              Opacity(
+                              const Opacity(
                                 opacity: 0.70,
                                 child: Text(
                                   'Current Location',
@@ -128,8 +128,8 @@ class _HomepageState extends State<Homepage> {
                             ],
                           ),
                         ),
-                        SizedBox(height: 6,),
-                        Text(
+                        const SizedBox(height: 6,),
+                        const Text(
                           'New Delhi, India',
                           textAlign: TextAlign.center,
                           style: TextStyle(
@@ -145,11 +145,11 @@ class _HomepageState extends State<Homepage> {
                     Container(// Adjust the size as needed
                       height: 62,
                       width: 45,// Adjust the size as needed
-                      decoration: BoxDecoration(
+                      decoration: const BoxDecoration(
                         shape: BoxShape.circle,
                         color: Color(0xFF7974E7),
                       ),
-                      child: Center(
+                      child: const Center(
                         child: Icon(
                           Icons.notifications, // Use the notification icon
                           color: Colors.white, // Change the icon color as needed
@@ -159,7 +159,7 @@ class _HomepageState extends State<Homepage> {
                     ),
                   ],
                 ),
-                SizedBox(height: 30.0),
+                const SizedBox(height: 30.0),
                 Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: <Widget>[
@@ -175,45 +175,43 @@ class _HomepageState extends State<Homepage> {
                         mainAxisAlignment: MainAxisAlignment.spaceBetween,
                         crossAxisAlignment: CrossAxisAlignment.center,
                         children: [
-                          Container(
-                            child: Row(
-                              mainAxisAlignment: MainAxisAlignment.start,
-                              crossAxisAlignment: CrossAxisAlignment.center,
-                              children: [
-                                Image.asset(
-                                  'assets/search.png', // Replace with your search image asset
-                                  width: 30.0,
-                                  height: 30.0,
-                                  fit: BoxFit.fill,
-                                ),
-                                VerticalDivider(
-                                  color: Color(0xFF7974E7), // Vertical divider color
-                                  thickness: 1.0, // Adjust the thickness as needed
-                                ),
-                                SizedBox(
-                                  width: 160, // Adjust the width as needed
-                                  child: TextField(
-                                    decoration: InputDecoration(
-                                      hintText: 'Search...', // Hint text
-                                      hintStyle: TextStyle(
-                                        color: Colors.white.withOpacity(0.30), // Hint text color
-                                        fontSize: 16,
-                                        fontFamily: 'Inter',
-                                        fontWeight: FontWeight.w500,
-                                      ),
-                                      border: InputBorder.none,
+                          Row(
+                            mainAxisAlignment: MainAxisAlignment.start,
+                            crossAxisAlignment: CrossAxisAlignment.center,
+                            children: [
+                              Image.asset(
+                                'assets/search.png', // Replace with your search image asset
+                                width: 30.0,
+                                height: 30.0,
+                                fit: BoxFit.fill,
+                              ),
+                              const VerticalDivider(
+                                color: Color(0xFF7974E7), // Vertical divider color
+                                thickness: 1.0, // Adjust the thickness as needed
+                              ),
+                              SizedBox(
+                                width: 160, // Adjust the width as needed
+                                child: TextField(
+                                  decoration: InputDecoration(
+                                    hintText: 'Search...', // Hint text
+                                    hintStyle: TextStyle(
+                                      color: Colors.white.withOpacity(0.30), // Hint text color
+                                      fontSize: 16,
+                                      fontFamily: 'Inter',
+                                      fontWeight: FontWeight.w500,
                                     ),
+                                    border: InputBorder.none,
                                   ),
                                 ),
-                              ],
-                            ),
+                              ),
+                            ],
                           ),
                           Container(
                             width: 80,
                             height: 40,
                             clipBehavior: Clip.antiAlias,
                             decoration: ShapeDecoration(
-                              color: Color(0xFF7974E7), // Filter button color
+                              color: const Color(0xFF7974E7), // Filter button color
                               shape: RoundedRectangleBorder(
                                 borderRadius: BorderRadius.circular(50),
                               ),
@@ -224,36 +222,34 @@ class _HomepageState extends State<Homepage> {
                               crossAxisAlignment: CrossAxisAlignment.start,
                               children: [
                                 const SizedBox(height: 6),
-                                Container(
-                                  child: Row(
-                                    mainAxisSize: MainAxisSize.min,
-                                    mainAxisAlignment: MainAxisAlignment.start,
-                                    crossAxisAlignment: CrossAxisAlignment.end,
-                                    children: [
-                                      const SizedBox(width: 12),
-                                      Image.asset(
-                                        'assets/Vector.png', // Replace with your search image asset
-                                        width: 20.0,
-                                        height: 20.0,
-                                        fit: BoxFit.fill,
-                                      ),
-                                      SizedBox(
-                                        width: 35.90,
-                                        height: 16.57,
-                                        child: Text(
-                                          'Filters',
-                                          textAlign: TextAlign.center,
-                                          style: TextStyle(
-                                            color: Colors.white,
-                                            fontSize: 12,
-                                            fontFamily: 'Inter',
-                                            fontWeight: FontWeight.w500,
-                                            height: 0,
-                                          ),
+                                Row(
+                                  mainAxisSize: MainAxisSize.min,
+                                  mainAxisAlignment: MainAxisAlignment.start,
+                                  crossAxisAlignment: CrossAxisAlignment.end,
+                                  children: [
+                                    const SizedBox(width: 12),
+                                    Image.asset(
+                                      'assets/Vector.png', // Replace with your search image asset
+                                      width: 20.0,
+                                      height: 20.0,
+                                      fit: BoxFit.fill,
+                                    ),
+                                    const SizedBox(
+                                      width: 35.90,
+                                      height: 16.57,
+                                      child: Text(
+                                        'Filters',
+                                        textAlign: TextAlign.center,
+                                        style: TextStyle(
+                                          color: Colors.white,
+                                          fontSize: 12,
+                                          fontFamily: 'Inter',
+                                          fontWeight: FontWeight.w500,
+                                          height: 0,
                                         ),
                                       ),
-                                    ],
-                                  ),
+                                    ),
+                                  ],
                                 ),
                               ],
                             ),
@@ -261,7 +257,7 @@ class _HomepageState extends State<Homepage> {
                         ],
                       ),
                     ),
-                    SizedBox(height: 12.0),
+                    const SizedBox(height: 12.0),
                   ],
                 ),
                 // SizedBox(height: 18.0),
@@ -285,7 +281,7 @@ class _HomepageState extends State<Homepage> {
                       width: 120.0,
                       decoration: BoxDecoration(
                         borderRadius: BorderRadius.circular(40.0),
-                        color: Color(0xFFF0635A),
+                        color: const Color(0xFFF0635A),
                       ),
                       child: Padding(
                         padding: const EdgeInsets.all(8.0),
@@ -293,7 +289,7 @@ class _HomepageState extends State<Homepage> {
                           crossAxisAlignment: CrossAxisAlignment.center,
                           mainAxisAlignment: MainAxisAlignment.center,
                           children: <Widget>[
-                          Container(
+                          SizedBox(
                           width: 17.73,
                           height: 17.73,
                           child: Stack(children: [
@@ -305,8 +301,8 @@ class _HomepageState extends State<Homepage> {
                             ]
                           )
                           ),
-                            SizedBox(width: 8.0),
-                            Text(
+                            const SizedBox(width: 8.0),
+                            const Text(
                               'Sports',
                               textAlign: TextAlign.center,
                               style: TextStyle(
@@ -330,7 +326,7 @@ class _HomepageState extends State<Homepage> {
                       width: 120.0,
                       decoration: BoxDecoration(
                         borderRadius: BorderRadius.circular(40.0),
-                        color: Color(0xFFF59762),
+                        color: const Color(0xFFF59762),
                       ),
                       child: Padding(
                         padding: const EdgeInsets.all(8.0),
@@ -338,7 +334,7 @@ class _HomepageState extends State<Homepage> {
                           crossAxisAlignment: CrossAxisAlignment.center,
                           mainAxisAlignment: MainAxisAlignment.center,
                           children: <Widget>[
-                            Container(
+                            SizedBox(
                                 width: 17.73,
                                 height: 17.73,
                                 child: Stack(children: [
@@ -350,8 +346,8 @@ class _HomepageState extends State<Homepage> {
                                 ]
                                 )
                             ),
-                            SizedBox(width: 8.0),
-                            Text(
+                            const SizedBox(width: 8.0),
+                            const Text(
                               'Music',
                               textAlign: TextAlign.center,
                               style: TextStyle(
@@ -374,15 +370,15 @@ class _HomepageState extends State<Homepage> {
                       width: 120.0,
                       decoration: BoxDecoration(
                         borderRadius: BorderRadius.circular(40.0),
-                        color: Color(0xFF29D697),
+                        color: const Color(0xFF29D697),
                       ),
-                      child: Padding(
-                        padding: const EdgeInsets.all(8.0),
+                      child: const Padding(
+                        padding: EdgeInsets.all(8.0),
                         child: Row(
                           crossAxisAlignment: CrossAxisAlignment.center,
                           mainAxisAlignment: MainAxisAlignment.center,
                           children: <Widget>[
-                            Container(
+                            SizedBox(
                                 width: 17.73,
                                 height: 17.73,
                                 child: Stack(children: [
@@ -418,7 +414,7 @@ class _HomepageState extends State<Homepage> {
                       width: 120.0,
                       decoration: BoxDecoration(
                         borderRadius: BorderRadius.circular(40.0),
-                          color: Color(0xFF46CDFB),
+                          color: const Color(0xFF46CDFB),
                       ),
                       child: Padding(
                         padding: const EdgeInsets.all(8.0),
@@ -426,7 +422,7 @@ class _HomepageState extends State<Homepage> {
                           crossAxisAlignment: CrossAxisAlignment.center,
                           mainAxisAlignment: MainAxisAlignment.center,
                           children: <Widget>[
-                            Container(
+                            SizedBox(
                                 width: 17.73,
                                 height: 17.73,
                                 child: Stack(children: [
@@ -438,8 +434,8 @@ class _HomepageState extends State<Homepage> {
                                 ]
                                 )
                             ),
-                            SizedBox(width: 8.0),
-                            Text(
+                            const SizedBox(width: 8.0),
+                            const Text(
                               'Arts',
                               textAlign: TextAlign.center,
                               style: TextStyle(
@@ -481,18 +477,18 @@ class _HomepageState extends State<Homepage> {
                 child: Padding(
                   padding: const EdgeInsets.all(8.0),
                   child: Container(
-                    padding: EdgeInsets.all(16.0),
+                    padding: const EdgeInsets.all(16.0),
                     child: Row(
                       children: [
                         Image.asset('assets/Rectangle 4.png'), // Replace with your image asset
-                        SizedBox(width: 16.0), // Adjust the spacing between image and text
+                        const SizedBox(width: 16.0), // Adjust the spacing between image and text
                         Expanded(
                           child: Column(
                             crossAxisAlignment: CrossAxisAlignment.start,
                             children: [
                               Text(
                                 agency['description'],
-                              style: TextStyle(
+                              style: const TextStyle(
                               color: Color(0xFF667085),
                               fontSize: 12,
                               fontFamily: 'Inter',
@@ -500,10 +496,10 @@ class _HomepageState extends State<Homepage> {
                               height: 0.13,
                               ),
                               ),
-                              SizedBox(height: 18,),
+                              const SizedBox(height: 18,),
                               Text(
                                 agency['name'],
-                                style: TextStyle(
+                                style: const TextStyle(
                                   color: Color(0xFF252627),
                                   fontSize: 18,
                                   fontFamily: 'Inter',
@@ -511,11 +507,11 @@ class _HomepageState extends State<Homepage> {
                                   height: 0.07,
                                 ),
                               ),
-                              SizedBox(height: 22,),
+                              const SizedBox(height: 22,),
                               Row(
                                 children: [
                                   Image.asset('assets/map-pin.png'), // Replace with your image asset
-                                  Text('New Delhi'),
+                                  const Text('New Delhi'),
                                 ],
                               ),
                             ],
@@ -524,13 +520,13 @@ class _HomepageState extends State<Homepage> {
                         DecoratedBox(
                           decoration: BoxDecoration(
                             borderRadius: BorderRadius.circular(10.0), // Border radius of 10
-                            border: Border.all(color: Color(0xFF5668FF), width: 2.0), // Blue border
+                            border: Border.all(color: const Color(0xFF5668FF), width: 2.0), // Blue border
                           ),
                           child: TextButton(
                             onPressed: () {
                               // Handle the "See More" button tap
                             },
-                            child: Text(
+                            child: const Text(
                               'See More',
                               style: TextStyle(
                                 color: Color(0xFF5668FF), // Text color for the "See More" button
@@ -545,7 +541,7 @@ class _HomepageState extends State<Homepage> {
                 ),
               ),
             ),
-            SizedBox(height: 16.0),
+            const SizedBox(height: 16.0),
           ],
         );
       }),
@@ -580,7 +576,7 @@ class _HomepageState extends State<Homepage> {
       ),
       floatingActionButton: FloatingActionButton(
         backgroundColor:Colors.black ,
-        shape: CircleBorder(),
+        shape: const CircleBorder(),
         onPressed: () {
           // Add your action when the button is pressed.
         },
@@ -589,7 +585,7 @@ class _HomepageState extends State<Homepage> {
             Container(
               width: 60.0, // Adjust the size as needed
               height: 60.0, // Adjust the size as needed
-              decoration: BoxDecoration(
+              decoration: const BoxDecoration(
                 shape: BoxShape.circle,
                 color: Colors.black,
               ),
