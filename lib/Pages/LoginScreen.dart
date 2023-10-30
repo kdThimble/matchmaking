@@ -197,7 +197,7 @@ class _LoginScreenState extends State<LoginScreen> {
                           isLoading
                               ? const CircularProgressIndicator()
                               : const Text(
-                                  'Sign up',
+                                  'Login',
                                   style: TextStyle(
                                     color: Colors.white,
                                     fontSize: 18,
