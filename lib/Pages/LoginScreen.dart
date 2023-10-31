@@ -5,6 +5,7 @@ import 'package:matchmaking/Pages/RegistrationScreen.dart';
 import 'package:provider/provider.dart';
 
 import '../providers/auth_provider.dart';
+import 'Homepage.dart';
 
 class LoginScreen extends StatefulWidget {
   const LoginScreen({super.key});
@@ -51,6 +52,8 @@ class _LoginScreenState extends State<LoginScreen> {
               message: response['message'].toString(),
               duration: Duration(seconds: 3),
             ).show(context);
+            Navigator.push(
+                context, MaterialPageRoute(builder: (context) => Homepage()));
           } else {
             setState(() {
               isLoading = false;
