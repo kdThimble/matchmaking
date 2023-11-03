@@ -1,8 +1,9 @@
 import 'package:flutter/material.dart';
+import 'package:matchmaking/Pages/LoginScreen.dart';
 import 'package:matchmaking/providers/auth_provider.dart';
 import 'package:provider/provider.dart';
 
-
+import 'Pages/Agency/AgencyRegistration.dart';
 import 'Pages/RegistrationScreen.dart';
 
 void main() {
@@ -41,7 +42,7 @@ class MyApp extends StatelessWidget {
           colorScheme: ColorScheme.fromSeed(seedColor: Colors.deepPurple),
           useMaterial3: true,
         ),
-        home: RegistrationScreen(),
+        home: AgencyRegistration(),
       ),
     );
   }

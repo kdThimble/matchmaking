@@ -3,4 +3,5 @@ class AppUrls {
       'https://eventmanagementproject.onrender.com/api/v1';
   static const String login = '$baseUrl/auth/login';
   static const String register = '$baseUrl/auth/register';
+  static const String registerAgency = '$baseUrl/agency/create';
 }

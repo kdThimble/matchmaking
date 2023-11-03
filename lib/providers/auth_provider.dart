@@ -118,5 +118,35 @@ class AuthProvider extends ChangeNotifier {
     return result;
 
    }
+    Future<Map<String, dynamic>> registerAgency(String name, String description) async{
+      var result;
+       var url = Uri.parse(AppUrls.register);
+    final response = await http.post(
+      url,
+      headers: <String, String>{
+        'Content-Type': 'application/json; charset=UTF-8',
+        'Authorization': 'Bearer $_token',
+      },
+      body: jsonEncode(<String, String>{
+        'name': name,
+        'description': description,
+      }),
+    );
+     if (response.statusCode >= 200 && response.statusCode < 300) {
+      _registeredInStatus = Status.Registered;
+      final jsonResponse = jsonDecode(response.body);
+     
+
+      result = {'status': true, 'message': 'Registered Successfully'};
+    } else {
+      _registeredInStatus = Status.NotRegistered;
+      notifyListeners();
+      result = {'status': false, 'message': "Registration Failed"};
+    }
+
+    return result;
+
+
+    }
 
 }

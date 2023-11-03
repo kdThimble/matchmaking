@@ -38,6 +38,9 @@ dependencies:
   http: ^1.1.0
   another_flushbar: ^1.12.30
   font_awesome_flutter: ^10.6.0
+  syncfusion_flutter_datepicker: ^23.1.43
+  intl: ^0.18.1
+  file_picker: ^6.0.0
 
 dev_dependencies:
   flutter_test:

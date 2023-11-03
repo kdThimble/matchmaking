@@ -5,16 +5,16 @@ import 'package:http/http.dart' as http;
 import 'package:matchmaking/providers/auth_provider.dart';
 import 'package:provider/provider.dart';
 
-
 class Agencydetails extends StatefulWidget {
-  const Agencydetails({Key? key, required this.selectedIndex}) : super(key: key);
+  const Agencydetails({Key? key, required this.selectedIndex})
+      : super(key: key);
   final String selectedIndex;
   @override
   State<Agencydetails> createState() => _AgencydetailsState();
 }
 
 class _AgencydetailsState extends State<Agencydetails> {
-  Agency ? agency;
+  Agency? agency;
   Future<void> fetchAgencyDetails() async {
     try {
       final userProvider = Provider.of<AuthProvider>(context, listen: false);
@@ -40,6 +40,7 @@ class _AgencydetailsState extends State<Agencydetails> {
         setState(() {
           agency = Agency.fromJson(jsonResponse['agency']);
         });
+        print("agency ${agency?.description}");
       } else {
         print(response.reasonPhrase);
         throw Exception('Failed to load agency details');
@@ -48,8 +49,8 @@ class _AgencydetailsState extends State<Agencydetails> {
       print('Error: $error');
     }
   }
-  int _selectedTab = 0;
 
+  int _selectedTab = 0;
 
   void _onTabTapped(int index) {
     setState(() {
@@ -62,7 +63,7 @@ class _AgencydetailsState extends State<Agencydetails> {
     print("ywss");
     print(widget.selectedIndex);
     super.initState();
-   fetchAgencyDetails();
+    fetchAgencyDetails();
     print("ywss");
     // print(agency!.name);
   }
@@ -77,10 +78,13 @@ class _AgencydetailsState extends State<Agencydetails> {
           valueColor: new AlwaysStoppedAnimation<Color>(Colors.blue),
         ),
       );
-    }
-    else {
+    } else {
       return Scaffold(
         backgroundColor: Colors.white,
+        appBar: AppBar(
+          automaticallyImplyLeading: true,
+          backgroundColor: Colors.white,
+        ),
         body: Column(
           mainAxisAlignment: MainAxisAlignment.start,
           children: <Widget>[
@@ -109,8 +113,8 @@ class _AgencydetailsState extends State<Agencydetails> {
                 Container(
                   width: 154,
                   height: 50,
-                  padding: const EdgeInsets.symmetric(
-                      horizontal: 32, vertical: 12),
+                  padding:
+                      const EdgeInsets.symmetric(horizontal: 32, vertical: 12),
                   clipBehavior: Clip.antiAlias,
                   decoration: ShapeDecoration(
                     color: Color(0xFF5668FF),
@@ -141,8 +145,8 @@ class _AgencydetailsState extends State<Agencydetails> {
                 Container(
                   width: 154,
                   height: 50,
-                  padding: const EdgeInsets.symmetric(
-                      horizontal: 32, vertical: 12),
+                  padding:
+                      const EdgeInsets.symmetric(horizontal: 32, vertical: 12),
                   clipBehavior: Clip.antiAlias,
                   decoration: ShapeDecoration(
                     shape: RoundedRectangleBorder(
@@ -181,13 +185,17 @@ class _AgencydetailsState extends State<Agencydetails> {
                   isSelected: _selectedTab == 0,
                   onTap: () => _onTabTapped(0),
                 ),
-                SizedBox(width: 70,),
+                SizedBox(
+                  width: 70,
+                ),
                 TabItem(
                   text: 'Event',
                   isSelected: _selectedTab == 1,
                   onTap: () => _onTabTapped(1),
                 ),
-                SizedBox(width: 70,),
+                SizedBox(
+                  width: 70,
+                ),
                 TabItem(
                   text: 'Reviews',
                   isSelected: _selectedTab == 2,
@@ -218,19 +226,18 @@ class TabItem extends StatelessWidget {
         decoration: BoxDecoration(
           border: isSelected
               ? Border(
-            bottom: BorderSide(
-              color: Color(0xFF5668FF),
-              width: 3.0,
-            ),
-          )
+                  bottom: BorderSide(
+                    color: Color(0xFF5668FF),
+                    width: 3.0,
+                  ),
+                )
               : null,
         ),
         child: Text(
           text,
           style: TextStyle(
-            color: isSelected ? Color(0xFF5668FF) : Colors.black,
-            fontSize: 16
-          ),
+              color: isSelected ? Color(0xFF5668FF) : Colors.black,
+              fontSize: 16),
         ),
       ),
     );
