@@ -76,16 +76,16 @@ class _HomepageState extends State<Homepage> {
         child: ListView(
           padding: EdgeInsets.zero,
           children: <Widget>[
-            DrawerHeader(
-              padding: const EdgeInsets.all(8.0),
+           const DrawerHeader(
+              padding:  EdgeInsets.all(8.0),
+              decoration: BoxDecoration(
+                color: Color(0xFF5D56F3),
+              ),
               child: Center(
                   child: Text(
                 'Side Menu',
                 style: TextStyle(fontSize: 26, fontWeight: FontWeight.bold),
               )),
-              decoration: BoxDecoration(
-                color: Color(0xFF5D56F3),
-              ),
             ),
             ListTile(
               title: Text('Reviews'),
