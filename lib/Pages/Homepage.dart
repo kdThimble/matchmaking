@@ -12,6 +12,7 @@ import 'package:matchmaking/Pages/profilescreen.dart';
 import 'package:matchmaking/providers/auth_provider.dart';
 import 'package:provider/provider.dart';
 
+import 'AgencyReviewPage.dart';
 
 class Homepage extends StatefulWidget {
   const Homepage({super.key});
@@ -41,7 +42,6 @@ class _HomepageState extends State<Homepage> {
   }
 
   Future<void> fetchData() async {
-
     final userProvider = Provider.of<AuthProvider>(context, listen: false);
     final authToken = userProvider.token;
     var headers = {
@@ -49,11 +49,15 @@ class _HomepageState extends State<Homepage> {
     };
     print("ssjj");
     print(authToken);
-    var request = http.Request('GET', Uri.parse('https://eventmanagementproject.onrender.com/api/v1/agency/all'));
+    var request = http.Request(
+        'GET',
+        Uri.parse(
+            'https://eventmanagementproject.onrender.com/api/v1/agency/all'));
     request.headers.addAll(headers);
 
     final response = await http.get(
-      Uri.parse('https://eventmanagementproject.onrender.com/api/v1/agency/all'),
+      Uri.parse(
+          'https://eventmanagementproject.onrender.com/api/v1/agency/all'),
     );
 
     if (response.statusCode == 200) {
@@ -62,13 +66,45 @@ class _HomepageState extends State<Homepage> {
       });
     }
   }
+
+  GlobalKey<ScaffoldState> _scaffoldKey = GlobalKey<ScaffoldState>();
   @override
   Widget build(BuildContext context) {
-    return  Scaffold(
-      // appBar: AppBar(
-      //   backgroundColor:Color(0xFF4a44c2),
-      //   automaticallyImplyLeading: false, // Hide the back arrow
-      // ),
+    return Scaffold(
+      key: _scaffoldKey,
+      drawer: Drawer(
+        child: ListView(
+          padding: EdgeInsets.zero,
+          children: <Widget>[
+            DrawerHeader(
+              padding: const EdgeInsets.all(8.0),
+              child: Center(
+                  child: Text(
+                'Side Menu',
+                style: TextStyle(fontSize: 26, fontWeight: FontWeight.bold),
+              )),
+              decoration: BoxDecoration(
+                color: Color(0xFF5D56F3),
+              ),
+            ),
+            ListTile(
+              title: Text('Reviews'),
+              onTap: () {
+                Navigator.push(
+                    context,
+                    MaterialPageRoute(
+                        builder: ((context) => AgencyReviewPage())));
+              },
+            ),
+            ListTile(
+              title: Text('Item 2'),
+              onTap: () {
+                // Handle item 2 tap
+              },
+            ),
+          ],
+        ),
+      ),
       body: Stack(
         children: [
           // Blue rounded container
@@ -93,10 +129,16 @@ class _HomepageState extends State<Homepage> {
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: <Widget>[
-                    Image.asset(
-                      'assets/Combined Shape.png',
-                      height: 62,
-                     width: 30,
+                    GestureDetector(
+                      onTap: () {
+                        print("button tapped");
+                        _scaffoldKey.currentState!.openEndDrawer();
+                      },
+                      child: Image.asset(
+                        'assets/Combined Shape.png',
+                        height: 62,
+                        width: 30,
+                      ),
                     ),
                     Column(
                       mainAxisSize: MainAxisSize.min,
@@ -135,7 +177,9 @@ class _HomepageState extends State<Homepage> {
                             ],
                           ),
                         ),
-                        const SizedBox(height: 6,),
+                        const SizedBox(
+                          height: 6,
+                        ),
                         const Text(
                           'New Delhi, India',
                           textAlign: TextAlign.center,
@@ -149,9 +193,10 @@ class _HomepageState extends State<Homepage> {
                         ),
                       ],
                     ),
-                    Container(// Adjust the size as needed
+                    Container(
+                      // Adjust the size as needed
                       height: 62,
-                      width: 45,// Adjust the size as needed
+                      width: 45, // Adjust the size as needed
                       decoration: const BoxDecoration(
                         shape: BoxShape.circle,
                         color: Color(0xFF7974E7),
@@ -159,7 +204,8 @@ class _HomepageState extends State<Homepage> {
                       child: const Center(
                         child: Icon(
                           Icons.notifications, // Use the notification icon
-                          color: Colors.white, // Change the icon color as needed
+                          color:
+                              Colors.white, // Change the icon color as needed
                           size: 30.0, // Adjust the icon size as needed
                         ),
                       ),
@@ -193,8 +239,10 @@ class _HomepageState extends State<Homepage> {
                                 fit: BoxFit.fill,
                               ),
                               const VerticalDivider(
-                                color: Color(0xFF7974E7), // Vertical divider color
-                                thickness: 1.0, // Adjust the thickness as needed
+                                color:
+                                    Color(0xFF7974E7), // Vertical divider color
+                                thickness:
+                                    1.0, // Adjust the thickness as needed
                               ),
                               SizedBox(
                                 width: 160, // Adjust the width as needed
@@ -202,7 +250,8 @@ class _HomepageState extends State<Homepage> {
                                   decoration: InputDecoration(
                                     hintText: 'Search...', // Hint text
                                     hintStyle: TextStyle(
-                                      color: Colors.white.withOpacity(0.30), // Hint text color
+                                      color: Colors.white
+                                          .withOpacity(0.30), // Hint text color
                                       fontSize: 16,
                                       fontFamily: 'Inter',
                                       fontWeight: FontWeight.w500,
@@ -218,7 +267,8 @@ class _HomepageState extends State<Homepage> {
                             height: 40,
                             clipBehavior: Clip.antiAlias,
                             decoration: ShapeDecoration(
-                              color: const Color(0xFF7974E7), // Filter button color
+                              color: const Color(
+                                  0xFF7974E7), // Filter button color
                               shape: RoundedRectangleBorder(
                                 borderRadius: BorderRadius.circular(50),
                               ),
@@ -296,18 +346,16 @@ class _HomepageState extends State<Homepage> {
                           crossAxisAlignment: CrossAxisAlignment.center,
                           mainAxisAlignment: MainAxisAlignment.center,
                           children: <Widget>[
-                          SizedBox(
-                          width: 17.73,
-                          height: 17.73,
-                          child: Stack(children: [
-                            Image.asset(
-                              'assets/Group.png',
-                              width: 30.0,
-                              fit: BoxFit.fill,
-                            ),
-                            ]
-                          )
-                          ),
+                            SizedBox(
+                                width: 17.73,
+                                height: 17.73,
+                                child: Stack(children: [
+                                  Image.asset(
+                                    'assets/Group.png',
+                                    width: 30.0,
+                                    fit: BoxFit.fill,
+                                  ),
+                                ])),
                             const SizedBox(width: 8.0),
                             const Text(
                               'Sports',
@@ -350,9 +398,7 @@ class _HomepageState extends State<Homepage> {
                                     width: 30.0,
                                     fit: BoxFit.fill,
                                   ),
-                                ]
-                                )
-                            ),
+                                ])),
                             const SizedBox(width: 8.0),
                             const Text(
                               'Music',
@@ -390,13 +436,14 @@ class _HomepageState extends State<Homepage> {
                                 height: 17.73,
                                 child: Stack(children: [
                                   FaIcon(
-                                    FontAwesomeIcons.utensils, // Use the utensil icon
-                                    color: Colors.white, // Change the icon color as needed
-                                    size: 20.0, // Adjust the icon size as needed
+                                    FontAwesomeIcons
+                                        .utensils, // Use the utensil icon
+                                    color: Colors
+                                        .white, // Change the icon color as needed
+                                    size:
+                                        20.0, // Adjust the icon size as needed
                                   ),
-                                ]
-                                )
-                            ),
+                                ])),
                             SizedBox(width: 8.0),
                             Text(
                               'Food',
@@ -421,7 +468,7 @@ class _HomepageState extends State<Homepage> {
                       width: 120.0,
                       decoration: BoxDecoration(
                         borderRadius: BorderRadius.circular(40.0),
-                          color: const Color(0xFF46CDFB),
+                        color: const Color(0xFF46CDFB),
                       ),
                       child: Padding(
                         padding: const EdgeInsets.all(8.0),
@@ -438,9 +485,7 @@ class _HomepageState extends State<Homepage> {
                                     width: 30.0,
                                     fit: BoxFit.fill,
                                   ),
-                                ]
-                                )
-                            ),
+                                ])),
                             const SizedBox(width: 8.0),
                             const Text(
                               'Arts',
@@ -463,102 +508,119 @@ class _HomepageState extends State<Homepage> {
             ),
           ),
 
-    Positioned(
-      top: 250, // Adjust the top position to start below the top section
-      left: 0,
-      right: 0,
-      bottom: 0,
-      child: ListView.builder(
-          itemCount: agencies.length,
-          itemBuilder: (BuildContext context, int index) {
-            var agency = agencies[index];
-        return Column(
-          children: [
-            Padding(
-              padding: const EdgeInsets.all(8.0),
-              child: DecoratedBox(
-                decoration: BoxDecoration(
-                  borderRadius: BorderRadius.circular(20.0),
-                  border: Border.all(color: Colors.grey, width: 1.0), // Blue border
-                ),
-                child: Padding(
-                  padding: const EdgeInsets.all(8.0),
-                  child: Container(
-                    padding: const EdgeInsets.all(16.0),
-                    child: Row(
-                      children: [
-                        Image.asset('assets/Rectangle 4.png'), // Replace with your image asset
-                        const SizedBox(width: 16.0), // Adjust the spacing between image and text
-                        Expanded(
-                          child: Column(
-                            crossAxisAlignment: CrossAxisAlignment.start,
-                            children: [
-                              Text(
-                                agency['description'],
-                              style: const TextStyle(
-                              color: Color(0xFF667085),
-                              fontSize: 12,
-                              fontFamily: 'Inter',
-                              fontWeight: FontWeight.w500,
-                              height: 0.13,
-                              ),
-                              ),
-                              const SizedBox(height: 18,),
-                              Text(
-                                agency['name'],
-                                style: const TextStyle(
-                                  color: Color(0xFF252627),
-                                  fontSize: 18,
-                                  fontFamily: 'Inter',
-                                  fontWeight: FontWeight.w500,
-                                  height: 0.07,
-                                ),
-                              ),
-                              const SizedBox(height: 22,),
-                              Row(
-                                children: [
-                                  Image.asset('assets/map-pin.png'), // Replace with your image asset
-                                  const Text('New Delhi'),
-                                ],
-                              ),
-                            ],
-                          ),
-                        ),
-                        DecoratedBox(
+          Positioned(
+            top: 250, // Adjust the top position to start below the top section
+            left: 0,
+            right: 0,
+            bottom: 0,
+            child: ListView.builder(
+                itemCount: agencies.length,
+                itemBuilder: (BuildContext context, int index) {
+                  var agency = agencies[index];
+                  return Column(
+                    children: [
+                      Padding(
+                        padding: const EdgeInsets.all(8.0),
+                        child: DecoratedBox(
                           decoration: BoxDecoration(
-                            borderRadius: BorderRadius.circular(10.0), // Border radius of 10
-                            border: Border.all(color: const Color(0xFF5668FF), width: 2.0), // Blue border
+                            borderRadius: BorderRadius.circular(20.0),
+                            border: Border.all(
+                                color: Colors.grey, width: 1.0), // Blue border
                           ),
-                          child: TextButton(
-                            onPressed: () {
-                              Navigator.push(
-                                  context,
-                                  MaterialPageRoute(
-                                      builder: ((context) =>
-                                       Agencydetails(selectedIndex: agency['id'],))));                            },
-                            child: const Text(
-                              'See More',
-                              style: TextStyle(
-                                color: Color(0xFF5668FF), // Text color for the "See More" button
+                          child: Padding(
+                            padding: const EdgeInsets.all(8.0),
+                            child: Container(
+                              padding: const EdgeInsets.all(16.0),
+                              child: Row(
+                                children: [
+                                  Image.asset(
+                                      'assets/Rectangle 4.png'), // Replace with your image asset
+                                  const SizedBox(
+                                      width:
+                                          16.0), // Adjust the spacing between image and text
+                                  Expanded(
+                                    child: Column(
+                                      crossAxisAlignment:
+                                          CrossAxisAlignment.start,
+                                      children: [
+                                        Text(
+                                          agency['description'],
+                                          style: const TextStyle(
+                                            color: Color(0xFF667085),
+                                            fontSize: 12,
+                                            fontFamily: 'Inter',
+                                            fontWeight: FontWeight.w500,
+                                            height: 0.13,
+                                          ),
+                                        ),
+                                        const SizedBox(
+                                          height: 18,
+                                        ),
+                                        Text(
+                                          agency['name'],
+                                          style: const TextStyle(
+                                            color: Color(0xFF252627),
+                                            fontSize: 18,
+                                            fontFamily: 'Inter',
+                                            fontWeight: FontWeight.w500,
+                                            height: 0.07,
+                                          ),
+                                        ),
+                                        const SizedBox(
+                                          height: 22,
+                                        ),
+                                        Row(
+                                          children: [
+                                            Image.asset(
+                                                'assets/map-pin.png'), // Replace with your image asset
+                                            const Text('New Delhi'),
+                                          ],
+                                        ),
+                                      ],
+                                    ),
+                                  ),
+                                  DecoratedBox(
+                                    decoration: BoxDecoration(
+                                      borderRadius: BorderRadius.circular(
+                                          10.0), // Border radius of 10
+                                      border: Border.all(
+                                          color: const Color(0xFF5668FF),
+                                          width: 2.0), // Blue border
+                                    ),
+                                    child: TextButton(
+                                      onPressed: () {
+                                        Navigator.push(
+                                            context,
+                                            MaterialPageRoute(
+                                                builder: ((context) =>
+                                                    Agencydetails(
+                                                      selectedIndex:
+                                                          agency['id'],
+                                                    ))));
+                                      },
+                                      child: const Text(
+                                        'See More',
+                                        style: TextStyle(
+                                          color: Color(
+                                              0xFF5668FF), // Text color for the "See More" button
+                                        ),
+                                      ),
+                                    ),
+                                  ),
+                                  // Add space between each container
+                                ],
                               ),
                             ),
                           ),
                         ),
-                        // Add space between each container
-                      ],
-                    ),
-                  ),
-                ),
-              ),
-            ),
-            const SizedBox(height: 16.0),
-          ],
-        );
-      }),
-    ),
+                      ),
+                      const SizedBox(height: 16.0),
+                    ],
+                  );
+                }),
+          ),
         ],
       ),
-
       bottomNavigationBar: BottomNavigationBar(
         items: [
           BottomNavigationBarItem(
@@ -575,17 +637,14 @@ class _HomepageState extends State<Homepage> {
           setState(() {
             _selectedIndex = index;
           });
-          if(_selectedIndex == 1){
-            Navigator.push(
-                context,
-                MaterialPageRoute(
-                    builder: ((context) =>
-                        ProfileScreen())));
+          if (_selectedIndex == 1) {
+            Navigator.push(context,
+                MaterialPageRoute(builder: ((context) => ProfileScreen())));
           }
         },
       ),
       floatingActionButton: FloatingActionButton(
-        backgroundColor:Colors.black ,
+        backgroundColor: Colors.black,
         shape: const CircleBorder(),
         onPressed: () {
           // Add your action when the button is pressed.

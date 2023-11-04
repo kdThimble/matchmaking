@@ -5,6 +5,7 @@ import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
 import '../providers/auth_provider.dart';
+import 'Homepage.dart';
 import 'LoginScreen.dart';
 
 class RegistrationScreen extends StatefulWidget {
@@ -46,16 +47,18 @@ class _RegistrationScreenState extends State<RegistrationScreen> {
               isLoading = false;
             });
             Flushbar(
-              title: "Failed Successful",
+              title: "Registered Successful",
               message: response['message'].toString(),
               duration: Duration(seconds: 3),
             ).show(context);
+            Navigator.push(
+                context, MaterialPageRoute(builder: ((context) => Homepage())));
           } else {
             setState(() {
               isLoading = false;
             });
             Flushbar(
-              title: "Failed Login",
+              title: "Registration Failed ",
               message: response['message'].toString(),
               duration: Duration(seconds: 3),
             ).show(context);
@@ -186,7 +189,7 @@ class _RegistrationScreenState extends State<RegistrationScreen> {
                 controller: conformPasswordController,
                 obscureText: true,
                 onSaved: (value) => _password = value!,
-                //  
+                //
                 decoration: const InputDecoration(
                     hintText: "Confirm Password",
                     hintStyle: TextStyle(color: Color(0xFF667085)),
