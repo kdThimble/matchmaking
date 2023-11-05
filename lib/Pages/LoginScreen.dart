@@ -3,6 +3,7 @@ import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
 import 'package:matchmaking/Pages/Homepage.dart';
 import 'package:matchmaking/Pages/RegistrationScreen.dart';
+import 'package:matchmaking/Pages/user/NewHomepage.dart';
 import 'package:provider/provider.dart';
 
 import '../providers/auth_provider.dart';
@@ -54,7 +55,7 @@ class _LoginScreenState extends State<LoginScreen> {
               backgroundColor: Colors.green,
             ).show(context);
             Navigator.push(
-                context, MaterialPageRoute(builder: ((context) => Homepage())));
+                context, MaterialPageRoute(builder: ((context) => Newhomepage())));
           } else {
             setState(() {
               isLoading = false;

@@ -48,7 +48,7 @@ class _Screen4State extends State<Screen4> {
                           children: <Widget>[
                             GestureDetector(
                                 onTap: () {
-                                  print("button tapped");
+                                  Navigator.pop(context);
                                 },
                                 child: const SizedBox(
                                   height: 62,

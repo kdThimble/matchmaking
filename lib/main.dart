@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:matchmaking/Pages/LoginScreen.dart';
+import 'package:matchmaking/Pages/user/NewHomepage.dart';
+import 'package:matchmaking/Pages/user/Screen2.dart';
 import 'package:matchmaking/providers/auth_provider.dart';
 import 'package:provider/provider.dart';
 
@@ -43,7 +45,7 @@ class MyApp extends StatelessWidget {
           colorScheme: ColorScheme.fromSeed(seedColor: Colors.deepPurple),
           useMaterial3: true,
         ),
-        home: Screen4(),
+        home: LoginScreen(),
       ),
     );
   }
