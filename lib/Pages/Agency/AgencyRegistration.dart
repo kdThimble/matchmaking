@@ -18,7 +18,7 @@ class AgencyRegistration extends StatefulWidget {
 
 class _AgencyRegistrationState extends State<AgencyRegistration> {
   final formKey = GlobalKey<FormState>();
-
+  bool _isDateSelected = false;
   late String _userName, _description, _dateOfJoining;
   bool isLoading = false;
   final DateRangePickerController _controller = DateRangePickerController();
@@ -31,6 +31,7 @@ class _AgencyRegistrationState extends State<AgencyRegistration> {
     SchedulerBinding.instance!.addPostFrameCallback((duration) {
       setState(() {
         _date = DateFormat('dd/MM/yyyy').format(args.value).toString();
+        _isDateSelected = true;
         print("Date $_date");
       });
     });
@@ -214,7 +215,7 @@ class _AgencyRegistrationState extends State<AgencyRegistration> {
                                   color: Color(0xFF667085)),
                               SizedBox(width: 15),
                               Text(
-                                "Date of Creation",
+                                !_isDateSelected ? "Date of Creation" : _date,
                                 style: TextStyle(
                                     color: Color(0xFF667085),
                                     fontWeight: FontWeight.w500,

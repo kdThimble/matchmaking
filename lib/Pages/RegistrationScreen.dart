@@ -5,8 +5,8 @@ import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
 import '../providers/auth_provider.dart';
-import 'Homepage.dart';
 import 'LoginScreen.dart';
+import 'TransitionPage.dart';
 
 class RegistrationScreen extends StatefulWidget {
   const RegistrationScreen({super.key});
@@ -51,8 +51,8 @@ class _RegistrationScreenState extends State<RegistrationScreen> {
               message: response['message'].toString(),
               duration: Duration(seconds: 3),
             ).show(context);
-            Navigator.push(
-                context, MaterialPageRoute(builder: ((context) => Homepage())));
+            Navigator.push(context,
+                MaterialPageRoute(builder: ((context) => TransitionPage())));
           } else {
             setState(() {
               isLoading = false;

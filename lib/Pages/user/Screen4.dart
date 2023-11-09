@@ -12,6 +12,27 @@ class Screen4 extends StatefulWidget {
 class _Screen4State extends State<Screen4> {
   SfRangeValues _values = const SfRangeValues(50000.0, 80000.0);
   TextEditingController descriptionController = TextEditingController();
+  Future<void> showSuccessDialog(BuildContext context) async {
+    return showDialog<void>(
+      context: context,
+      barrierDismissible: false, // user must tap button!
+      builder: (BuildContext context) {
+        return AlertDialog(
+          title: const Text('Success'),
+          content: const Text('Query Sent successfully.'),
+          actions: <Widget>[
+            TextButton(
+              child: const Text('OK'),
+              onPressed: () {
+                Navigator.of(context).pop();
+              },
+            ),
+          ],
+        );
+      },
+    );
+  }
+
   late String _description;
   bool _isChecked = false;
   @override
@@ -198,7 +219,7 @@ class _Screen4State extends State<Screen4> {
                     ),
                   ),
                   Container(
-                    padding: EdgeInsets.symmetric(vertical: 10.0),
+                    padding: const EdgeInsets.symmetric(vertical: 10.0),
                     child: Row(
                       children: [
                         Checkbox(
@@ -210,7 +231,7 @@ class _Screen4State extends State<Screen4> {
                             });
                           },
                         ),
-                        Text(
+                       const Text(
                           'Need Man power',
                           style: TextStyle(
                               fontSize: 20,
@@ -220,29 +241,34 @@ class _Screen4State extends State<Screen4> {
                       ],
                     ),
                   ),
-                  Container(
-                      padding: const EdgeInsets.symmetric(
-                          horizontal: 24, vertical: 16),
-                      clipBehavior: Clip.antiAlias,
-                      decoration: ShapeDecoration(
-                        color: Colors.white,
-                        shape: RoundedRectangleBorder(
-                          borderRadius: BorderRadius.circular(47),
-                        ),
-                      ),
-                      child: Center(
-                        child: Text(
-                          'Next',
-                          style: TextStyle(
-                            color: Color(0xFF5668FF),
-                            fontSize: 16,
-                            fontFamily: 'Inter',
-                            fontWeight: FontWeight.w600,
-                            height: 0,
+                  GestureDetector(
+                    onTap: () {
+                      showSuccessDialog(context);
+                    },
+                    child: Container(
+                        padding: const EdgeInsets.symmetric(
+                            horizontal: 24, vertical: 16),
+                        clipBehavior: Clip.antiAlias,
+                        decoration: ShapeDecoration(
+                          color: Colors.white,
+                          shape: RoundedRectangleBorder(
+                            borderRadius: BorderRadius.circular(47),
                           ),
                         ),
-                      )),
-                  SizedBox(
+                        child: const Center(
+                          child: Text(
+                            'Next',
+                            style: TextStyle(
+                              color: Color(0xFF5668FF),
+                              fontSize: 16,
+                              fontFamily: 'Inter',
+                              fontWeight: FontWeight.w600,
+                              height: 0,
+                            ),
+                          ),
+                        )),
+                  ),
+                  const SizedBox(
                     height: 60,
                   )
                 ],

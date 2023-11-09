@@ -80,8 +80,9 @@ class AuthProvider extends ChangeNotifier {
     return result;
   }
 
-   Future<Map<String, dynamic>> signUp(String name, String email, String password) async {
-     var result;
+  Future<Map<String, dynamic>> signUp(
+      String name, String email, String password) async {
+    var result;
     _registeredInStatus = Status.Registering;
     notifyListeners();
 
@@ -97,9 +98,8 @@ class AuthProvider extends ChangeNotifier {
         'email': email,
         'password': password,
       }),
-
     );
-     print("Response ${response.body} ${response.statusCode}");
+    print("Response ${response.body} ${response.statusCode}");
 
     if (response.statusCode >= 200 && response.statusCode < 300) {
       _registeredInStatus = Status.Registered;
@@ -116,11 +116,12 @@ class AuthProvider extends ChangeNotifier {
     }
 
     return result;
+  }
 
-   }
-    Future<Map<String, dynamic>> registerAgency(String name, String description) async{
-      var result;
-       var url = Uri.parse(AppUrls.register);
+  Future<Map<String, dynamic>> registerAgency(
+      String name, String description) async {
+    var result;
+    var url = Uri.parse(AppUrls.registerAgency);
     final response = await http.post(
       url,
       headers: <String, String>{
@@ -132,10 +133,10 @@ class AuthProvider extends ChangeNotifier {
         'description': description,
       }),
     );
-     if (response.statusCode >= 200 && response.statusCode < 300) {
+    print("response ${response.body}");
+    if (response.statusCode >= 200 && response.statusCode < 300) {
       _registeredInStatus = Status.Registered;
       final jsonResponse = jsonDecode(response.body);
-     
 
       result = {'status': true, 'message': 'Registered Successfully'};
     } else {
@@ -145,8 +146,5 @@ class AuthProvider extends ChangeNotifier {
     }
 
     return result;
-
-
-    }
-
+  }
 }
