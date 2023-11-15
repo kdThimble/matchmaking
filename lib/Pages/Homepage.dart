@@ -12,6 +12,7 @@ import 'package:matchmaking/Pages/profilescreen.dart';
 import 'package:matchmaking/providers/auth_provider.dart';
 import 'package:provider/provider.dart';
 
+import '../Models/ServiceRequestModel.dart';
 import 'AgencyReviewPage.dart';
 
 class Homepage extends StatefulWidget {
@@ -23,7 +24,7 @@ class Homepage extends StatefulWidget {
 
 class _HomepageState extends State<Homepage> {
   int _selectedIndex = 0; // Index of the selected tab
-  List<dynamic> agencies = [];
+  List<ServiceRequest> serviceRequests = [];
 
   final List<Widget> _tabs = [
     Image.asset('assets/home-2.png'),
@@ -52,32 +53,41 @@ class _HomepageState extends State<Homepage> {
     var request = http.Request(
         'GET',
         Uri.parse(
-            'https://eventmanagementproject.onrender.com/api/v1/agency/all'));
+            'https://eventmanagementproject.onrender.com/api/v1/serviceRequest/all'));
     request.headers.addAll(headers);
 
-    final response = await http.get(
-      Uri.parse(
-          'https://eventmanagementproject.onrender.com/api/v1/agency/all'),
-    );
+    var streamedResponse = await request.send();
+    var response = await http.Response.fromStream(streamedResponse);
+    print("response ${response.body}");
 
     if (response.statusCode == 200) {
+      print("in success code");
       setState(() {
-        agencies = json.decode(response.body)['agencies'];
+        // serviceRequests = json.decode(response.body)['serviceRequests'];
+        var data = json.decode(response.body)['serviceRequests'];
+        for (Map i in data) {
+          serviceRequests.add(ServiceRequest.fromJson(i));
+        }
       });
+    } else {
+      print("in unsuccessful code");
     }
   }
 
   GlobalKey<ScaffoldState> _scaffoldKey = GlobalKey<ScaffoldState>();
   @override
   Widget build(BuildContext context) {
+    var width = MediaQuery.of(context).size.width;
+
+    var height = MediaQuery.of(context).size.height;
     return Scaffold(
       key: _scaffoldKey,
       drawer: Drawer(
         child: ListView(
           padding: EdgeInsets.zero,
           children: <Widget>[
-           const DrawerHeader(
-              padding:  EdgeInsets.all(8.0),
+            const DrawerHeader(
+              padding: EdgeInsets.all(8.0),
               decoration: BoxDecoration(
                 color: Color(0xFF5D56F3),
               ),
@@ -109,12 +119,12 @@ class _HomepageState extends State<Homepage> {
         children: [
           // Blue rounded container
           Container(
-            height: 250,
+            height: height * 0.33,
             decoration: const BoxDecoration(
               color: Color(0xFF5D56F3),
               borderRadius: BorderRadius.only(
-                bottomLeft: Radius.circular(50.0),
-                bottomRight: Radius.circular(50.0),
+                bottomLeft: Radius.circular(40.0),
+                bottomRight: Radius.circular(40.0),
               ),
             ),
           ),
@@ -220,10 +230,6 @@ class _HomepageState extends State<Homepage> {
                       width: 335,
                       height: 39.30,
                       padding: const EdgeInsets.all(4),
-                      // decoration: BoxDecoration(
-                      //   color: Colors.white, // White background color
-                      //   borderRadius: BorderRadius.circular(50.0),
-                      // ),
                       child: Row(
                         mainAxisAlignment: MainAxisAlignment.spaceBetween,
                         crossAxisAlignment: CrossAxisAlignment.center,
@@ -322,7 +328,8 @@ class _HomepageState extends State<Homepage> {
             ),
           ),
           Positioned(
-            top: -140.0, // Adjust the top position to control the overlay
+            top: -height *
+                0.27, // Adjust the top position to control the overlay
             left: 0,
             right: 0,
             bottom: 0, // Allow the scroll view to expand to the bottom
@@ -509,14 +516,15 @@ class _HomepageState extends State<Homepage> {
           ),
 
           Positioned(
-            top: 250, // Adjust the top position to start below the top section
+            top: height *
+                0.3, // Adjust the top position to start below the top section
             left: 0,
             right: 0,
             bottom: 0,
             child: ListView.builder(
-                itemCount: agencies.length,
+                itemCount: serviceRequests.length,
                 itemBuilder: (BuildContext context, int index) {
-                  var agency = agencies[index];
+                  var agency = serviceRequests[index];
                   return Column(
                     children: [
                       Padding(
@@ -530,11 +538,14 @@ class _HomepageState extends State<Homepage> {
                           child: Padding(
                             padding: const EdgeInsets.all(8.0),
                             child: Container(
-                              padding: const EdgeInsets.all(16.0),
+                              padding: const EdgeInsets.all(8.0),
                               child: Row(
+                                crossAxisAlignment: CrossAxisAlignment.start,
                                 children: [
                                   Image.asset(
-                                      'assets/Rectangle 4.png'), // Replace with your image asset
+                                    'assets/Rectangle 4.png',
+                                    width: width * 0.1,
+                                  ), // Replace with your image asset
                                   const SizedBox(
                                       width:
                                           16.0), // Adjust the spacing between image and text
@@ -543,8 +554,32 @@ class _HomepageState extends State<Homepage> {
                                       crossAxisAlignment:
                                           CrossAxisAlignment.start,
                                       children: [
+                                        Row(
+                                          children: [
+                                            Text(
+                                              agency.title ?? "No title",
+                                              style: const TextStyle(
+                                                color: Color(0xFF252627),
+                                                fontSize: 17,
+                                                fontFamily: 'Inter',
+                                                fontWeight: FontWeight.w500,
+                                                height: 0.07,
+                                              ),
+                                            ),
+                                            IconButton(
+                                                onPressed: () {},
+                                                padding: EdgeInsets.all(0.0),
+                                                icon: Icon(
+                                                  Icons.arrow_forward,
+                                                  color: Color(0xFF667085),
+                                                ))
+                                          ],
+                                        ),
+                                        const SizedBox(
+                                          height: 22,
+                                        ),
                                         Text(
-                                          agency['description'],
+                                          agency.brief ?? "No Description",
                                           style: const TextStyle(
                                             color: Color(0xFF667085),
                                             fontSize: 12,
@@ -556,19 +591,6 @@ class _HomepageState extends State<Homepage> {
                                         const SizedBox(
                                           height: 18,
                                         ),
-                                        Text(
-                                          agency['name'],
-                                          style: const TextStyle(
-                                            color: Color(0xFF252627),
-                                            fontSize: 18,
-                                            fontFamily: 'Inter',
-                                            fontWeight: FontWeight.w500,
-                                            height: 0.07,
-                                          ),
-                                        ),
-                                        const SizedBox(
-                                          height: 22,
-                                        ),
                                         Row(
                                           children: [
                                             Image.asset(
@@ -579,34 +601,7 @@ class _HomepageState extends State<Homepage> {
                                       ],
                                     ),
                                   ),
-                                  DecoratedBox(
-                                    decoration: BoxDecoration(
-                                      borderRadius: BorderRadius.circular(
-                                          10.0), // Border radius of 10
-                                      border: Border.all(
-                                          color: const Color(0xFF5668FF),
-                                          width: 2.0), // Blue border
-                                    ),
-                                    child: TextButton(
-                                      onPressed: () {
-                                        Navigator.push(
-                                            context,
-                                            MaterialPageRoute(
-                                                builder: ((context) =>
-                                                    Agencydetails(
-                                                      selectedIndex:
-                                                          agency['id'],
-                                                    ))));
-                                      },
-                                      child: const Text(
-                                        'See More',
-                                        style: TextStyle(
-                                          color: Color(
-                                              0xFF5668FF), // Text color for the "See More" button
-                                        ),
-                                      ),
-                                    ),
-                                  ),
+
                                   // Add space between each container
                                 ],
                               ),

@@ -4,5 +4,5 @@ class AppUrls {
   static const String login = '$baseUrl/auth/login';
   static const String register = '$baseUrl/auth/register';
   static const String registerAgency = '$baseUrl/agency/create';
-  static const String getUser = '$baseUrl/api/v1/users/profile';
+  static const String getUser = '$baseUrl/users/profile';
 }

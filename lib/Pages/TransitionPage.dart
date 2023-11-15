@@ -25,12 +25,14 @@ class _TransitionPageState extends State<TransitionPage> {
       'Authorization': 'Bearer $authToken',
     };
 
-    var request = http.Request('GET', Uri.parse(AppUrls.getUser));
+    var request = http.Request(
+        'GET',
+        Uri.parse(
+            "https://eventmanagementproject.onrender.com/api/v1/users/profile"));
     request.headers.addAll(headers);
 
-    final response = await http.get(
-      Uri.parse(AppUrls.getUser),
-    );
+    var streamedResponse = await request.send();
+    var response = await http.Response.fromStream(streamedResponse);
     print("response ${response.body}");
     return response;
   }
@@ -43,8 +45,10 @@ class _TransitionPageState extends State<TransitionPage> {
         builder: (context, snapshot) {
           if (snapshot.hasData) {
             if (snapshot.data?.body != null) {
-              if (json.decode(snapshot.data!.body)['agencies'] != null) {
-                print(json.decode(snapshot.data!.body)['agencies']);
+              print("resposneee");
+              print(json.decode(snapshot.data!.body)['agency']);
+              if (json.decode(snapshot.data!.body)['agency'] != null) {
+                print(json.decode(snapshot.data!.body)['agency']);
                 Future.delayed(Duration(seconds: 2), () {
                   Navigator.push(context,
                       MaterialPageRoute(builder: ((context) => Homepage())));
