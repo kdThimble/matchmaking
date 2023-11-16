@@ -18,16 +18,79 @@ class _Screen4State extends State<Screen4> {
       barrierDismissible: false, // user must tap button!
       builder: (BuildContext context) {
         return AlertDialog(
-          title: const Text('Success'),
-          content: const Text('Query Sent successfully.'),
-          actions: <Widget>[
-            TextButton(
-              child: const Text('OK'),
-              onPressed: () {
-                Navigator.of(context).pop();
-              },
+          title: Container(
+            // Container for the image
+            child: Image.asset(
+              'assets/img_13.png', // Replace with your image URL
+              fit: BoxFit.cover,
             ),
-          ],
+          ),
+          content: Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            mainAxisSize: MainAxisSize.min,
+            children: [
+              SizedBox(height: 16),
+              Center(
+                child: Text(
+                  'Successful!',
+                  textAlign: TextAlign.center,
+                  style: TextStyle(
+                    color: Color(0xFF5668FF),
+                    fontSize: 24,
+                    fontFamily: 'Nunito',
+                    fontWeight: FontWeight.w700,
+                    height: 0.07,
+                  ),
+                ),
+              ),
+              SizedBox(height: 30),
+              Center(
+                child: Text(
+                  'Please wait a moment',
+                  textAlign: TextAlign.center,
+                  style: TextStyle(
+                    color: Color(0xFF212121),
+                    fontSize: 16,
+                    fontFamily: 'Nunito',
+                    fontWeight: FontWeight.w400,
+                    height: 0.09,
+                    letterSpacing: 0.20,
+                  ),
+                ),
+              ),
+              SizedBox(height: 20),
+              Center(
+                child: Text(
+                  'we are preparing for you...',
+                  textAlign: TextAlign.center,
+                  style: TextStyle(
+                    color: Color(0xFF212121),
+                    fontSize: 16,
+                    fontFamily: 'Nunito',
+                    fontWeight: FontWeight.w400,
+                    height: 0.09,
+                    letterSpacing: 0.20,
+                  ),
+                ),
+              ),
+              SizedBox(height: 20),
+              // Circular dotted animation (you can replace this with your own loading indicator)
+              Center(
+                child: CircularProgressIndicator(
+                  strokeWidth: 2.0,
+                  valueColor: AlwaysStoppedAnimation<Color>(Color(0xFF5D56F3)),
+                ),
+              ),
+            ],
+          ),
+          // actions: [
+          //   TextButton(
+          //     onPressed: () {
+          //       Navigator.of(context).pop();
+          //     },
+          //     child: Text('Close'),
+          //   ),
+          // ],
         );
       },
     );
