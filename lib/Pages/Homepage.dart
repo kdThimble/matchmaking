@@ -8,6 +8,7 @@ import 'package:matchmaking/Pages/RegistrationScreen.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:matchmaking/Pages/Agencydetails.dart';
 import 'package:http/http.dart' as http;
+import 'package:matchmaking/Pages/Servicedetails.dart';
 import 'package:matchmaking/Pages/profilescreen.dart';
 import 'package:matchmaking/providers/auth_provider.dart';
 import 'package:provider/provider.dart';
@@ -51,9 +52,11 @@ class _HomepageState extends State<Homepage> {
     print("ssjj");
     print(authToken);
     var request = http.Request(
-        'GET',
-        Uri.parse(
-            'https://eventmanagementproject.onrender.com/api/v1/serviceRequest/all'));
+      'GET',
+      Uri.parse(
+        'https://eventmanagementproject.onrender.com/api/v1/serviceRequest/all',
+      ),
+    );
     request.headers.addAll(headers);
 
     var streamedResponse = await request.send();
@@ -63,7 +66,6 @@ class _HomepageState extends State<Homepage> {
     if (response.statusCode == 200) {
       print("in success code");
       setState(() {
-        // serviceRequests = json.decode(response.body)['serviceRequests'];
         var data = json.decode(response.body)['serviceRequests'];
         for (Map i in data) {
           serviceRequests.add(ServiceRequest.fromJson(i));
@@ -73,6 +75,9 @@ class _HomepageState extends State<Homepage> {
       print("in unsuccessful code");
     }
   }
+
+  // Example of how to use the saved IDs in a different function
+
 
   GlobalKey<ScaffoldState> _scaffoldKey = GlobalKey<ScaffoldState>();
   @override
@@ -517,7 +522,7 @@ class _HomepageState extends State<Homepage> {
 
           Positioned(
             top: height *
-                0.3, // Adjust the top position to start below the top section
+                0.34, // Adjust the top position to start below the top section
             left: 0,
             right: 0,
             bottom: 0,
@@ -527,83 +532,94 @@ class _HomepageState extends State<Homepage> {
                   var agency = serviceRequests[index];
                   return Column(
                     children: [
-                      Padding(
-                        padding: const EdgeInsets.all(8.0),
-                        child: DecoratedBox(
-                          decoration: BoxDecoration(
-                            borderRadius: BorderRadius.circular(20.0),
-                            border: Border.all(
-                                color: Colors.grey, width: 1.0), // Blue border
-                          ),
-                          child: Padding(
-                            padding: const EdgeInsets.all(8.0),
-                            child: Container(
+                      GestureDetector(
+                        onTap: () {
+                    Navigator.push(
+                        context,
+                        MaterialPageRoute(
+                            builder: ((context) =>
+                             ServiceDetails(
+                               requestId: serviceRequests[index].id!,
+                             ))));
+                  },
+                        child: Padding(
+                          padding: const EdgeInsets.all(8.0),
+                          child: DecoratedBox(
+                            decoration: BoxDecoration(
+                              borderRadius: BorderRadius.circular(20.0),
+                              border: Border.all(
+                                  color: Colors.grey, width: 1.0), // Blue border
+                            ),
+                            child: Padding(
                               padding: const EdgeInsets.all(8.0),
-                              child: Row(
-                                crossAxisAlignment: CrossAxisAlignment.start,
-                                children: [
-                                  Image.asset(
-                                    'assets/Rectangle 4.png',
-                                    width: width * 0.1,
-                                  ), // Replace with your image asset
-                                  const SizedBox(
-                                      width:
-                                          16.0), // Adjust the spacing between image and text
-                                  Expanded(
-                                    child: Column(
-                                      crossAxisAlignment:
-                                          CrossAxisAlignment.start,
-                                      children: [
-                                        Row(
-                                          children: [
-                                            Text(
-                                              agency.title ?? "No title",
-                                              style: const TextStyle(
-                                                color: Color(0xFF252627),
-                                                fontSize: 17,
-                                                fontFamily: 'Inter',
-                                                fontWeight: FontWeight.w500,
-                                                height: 0.07,
+                              child: Container(
+                                padding: const EdgeInsets.all(8.0),
+                                child: Row(
+                                  crossAxisAlignment: CrossAxisAlignment.start,
+                                  children: [
+                                    Image.asset(
+                                      'assets/Rectangle 4.png',
+                                      width: width * 0.1,
+                                    ), // Replace with your image asset
+                                    const SizedBox(
+                                        width:
+                                            16.0), // Adjust the spacing between image and text
+                                    Expanded(
+                                      child: Column(
+                                        crossAxisAlignment:
+                                            CrossAxisAlignment.start,
+                                        children: [
+                                          Row(
+                                            children: [
+                                              Text(
+                                                agency.title ?? "No title",
+                                                style: const TextStyle(
+                                                  color: Color(0xFF252627),
+                                                  fontSize: 17,
+                                                  fontFamily: 'Inter',
+                                                  fontWeight: FontWeight.w500,
+                                                  height: 0.07,
+                                                ),
                                               ),
-                                            ),
-                                            IconButton(
-                                                onPressed: () {},
-                                                padding: EdgeInsets.all(0.0),
-                                                icon: Icon(
-                                                  Icons.arrow_forward,
-                                                  color: Color(0xFF667085),
-                                                ))
-                                          ],
-                                        ),
-                                        const SizedBox(
-                                          height: 22,
-                                        ),
-                                        Text(
-                                          agency.brief ?? "No Description",
-                                          style: const TextStyle(
-                                            color: Color(0xFF667085),
-                                            fontSize: 12,
-                                            fontFamily: 'Inter',
-                                            fontWeight: FontWeight.w500,
-                                            height: 0.13,
+                                              IconButton(
+                                                  onPressed: () {},
+                                                  padding: EdgeInsets.all(0.0),
+                                                  icon: Icon(
+                                                    Icons.arrow_forward,
+                                                    color: Color(0xFF667085),
+                                                  ))
+                                            ],
                                           ),
-                                        ),
-                                        const SizedBox(
-                                          height: 18,
-                                        ),
-                                        Row(
-                                          children: [
-                                            Image.asset(
-                                                'assets/map-pin.png'), // Replace with your image asset
-                                            const Text('New Delhi'),
-                                          ],
-                                        ),
-                                      ],
+                                          const SizedBox(
+                                            height: 22,
+                                          ),
+                                          Text(
+                                            agency.brief ?? "No Description",
+                                            style: const TextStyle(
+                                              color: Color(0xFF667085),
+                                              fontSize: 12,
+                                              fontFamily: 'Inter',
+                                              fontWeight: FontWeight.w500,
+                                              height: 0.13,
+                                            ),
+                                          ),
+                                          const SizedBox(
+                                            height: 18,
+                                          ),
+                                          Row(
+                                            children: [
+                                              Image.asset(
+                                                  'assets/map-pin.png'), // Replace with your image asset
+                                              const Text('New Delhi'),
+                                            ],
+                                          ),
+                                        ],
+                                      ),
                                     ),
-                                  ),
 
-                                  // Add space between each container
-                                ],
+                                    // Add space between each container
+                                  ],
+                                ),
                               ),
                             ),
                           ),
