@@ -1,15 +1,15 @@
 import 'dart:convert';
 
-import 'package:flutter/gestures.dart';
+
 import 'package:flutter/material.dart';
-import 'package:matchmaking/Pages/LoginScreen.dart';
+
 import 'package:matchmaking/Pages/Profilepage.dart';
-import 'package:matchmaking/Pages/RegistrationScreen.dart';
+
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
-import 'package:matchmaking/Pages/Agencydetails.dart';
+
 import 'package:http/http.dart' as http;
 import 'package:matchmaking/Pages/Servicedetails.dart';
-import 'package:matchmaking/Pages/profilescreen.dart';
+
 import 'package:matchmaking/providers/auth_provider.dart';
 import 'package:provider/provider.dart';
 

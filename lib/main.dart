@@ -3,6 +3,7 @@ import 'package:matchmaking/Pages/LoginScreen.dart';
 import 'package:matchmaking/Pages/user/NewHomepage.dart';
 import 'package:matchmaking/Pages/user/Screen2.dart';
 import 'package:matchmaking/providers/auth_provider.dart';
+import 'package:matchmaking/providers/form_provider.dart';
 import 'package:provider/provider.dart';
 
 import 'Pages/Agency/AgencyRegistration.dart';
@@ -22,6 +23,7 @@ class MyApp extends StatelessWidget {
     return MultiProvider(
       providers: [
         ChangeNotifierProvider(create: (_) => AuthProvider()),
+        ChangeNotifierProvider(create: (_) => FormProvider()),
       ],
       child: MaterialApp(
         title: 'Flutter Demo',
