@@ -433,6 +433,8 @@ import 'package:syncfusion_flutter_sliders/sliders.dart';
 import 'package:syncfusion_flutter_core/theme.dart';
 import 'package:http/http.dart' as http;
 
+import '../../providers/form_provider.dart';
+
 class Screen3 extends StatefulWidget {
   const Screen3({super.key});
 
@@ -443,7 +445,7 @@ class Screen3 extends StatefulWidget {
 class _Screen3State extends State<Screen3> {
   SfRangeValues _values = const SfRangeValues(50000.0, 80000.0);
   TextEditingController descriptionController = TextEditingController();
-    TextEditingController fullNameController = TextEditingController();
+  TextEditingController fullNameController = TextEditingController();
   TextEditingController emailController = TextEditingController();
   TextEditingController cityController = TextEditingController();
   TextEditingController stateController = TextEditingController();
@@ -467,7 +469,9 @@ class _Screen3State extends State<Screen3> {
     print(authToken);
 
     var request = http.Request(
-        'GET', Uri.parse('https://eventmanagementproject.onrender.com/api/v1/users/profile'));
+        'GET',
+        Uri.parse(
+            'https://eventmanagementproject.onrender.com/api/v1/users/profile'));
     request.headers.addAll(headers);
 
     http.StreamedResponse response = await request.send();
@@ -489,7 +493,6 @@ class _Screen3State extends State<Screen3> {
     }
   }
 
-
   Future<void> updateProfile() async {
     final userProvider = Provider.of<AuthProvider>(context, listen: false);
     final authToken = userProvider.token;
@@ -501,7 +504,9 @@ class _Screen3State extends State<Screen3> {
     print(authToken);
 
     var request = http.Request(
-        'PUT', Uri.parse('https://eventmanagementproject.onrender.com/api/v1/users/profile/update'));
+        'PUT',
+        Uri.parse(
+            'https://eventmanagementproject.onrender.com/api/v1/users/profile/update'));
     request.headers.addAll(headers);
 
     var profileData = {
@@ -526,7 +531,7 @@ class _Screen3State extends State<Screen3> {
       Flushbar(
         message: 'Profile updated successfully',
         backgroundColor: Colors.green,
-        duration: Duration(seconds: 2),
+        duration: const Duration(seconds: 2),
       )..show(context);
     } else {
       print(response.reasonPhrase);
@@ -534,328 +539,355 @@ class _Screen3State extends State<Screen3> {
       Flushbar(
         message: 'Profile update failed',
         backgroundColor: Colors.red,
-        duration: Duration(seconds: 2),
+        duration: const Duration(seconds: 2),
       )..show(context);
     }
   }
-  late String _description;
+
   bool _isChecked = false;
+  final _formKey = GlobalKey<FormState>();
   @override
   Widget build(BuildContext context) {
     var width = MediaQuery.of(context).size.width;
 
     var height = MediaQuery.of(context).size.height;
+    final formProvider = Provider.of<FormProvider>(context);
     return Scaffold(
         body: SingleChildScrollView(
-          child: Stack(
-            children: [
-              Positioned(
-                right: 0,
-                top: 0,
-                left: 0,
-                bottom: 0,
-                child: Image.asset(
-                  "assets/FormBG.png",
-                  fit: BoxFit.fill,
-                ),
-              ),
-              SafeArea(
-                child: Padding(
+      child: Stack(
+        children: [
+          Positioned(
+            right: 0,
+            top: 0,
+            left: 0,
+            bottom: 0,
+            child: Image.asset(
+              "assets/FormBG.png",
+              fit: BoxFit.fill,
+            ),
+          ),
+          SafeArea(
+              child: Padding(
                   padding: const EdgeInsets.symmetric(horizontal: 20.0),
-                  child: Column(
-                    children: [
-                      Row(
-                        mainAxisAlignment: MainAxisAlignment.center,
-                        crossAxisAlignment: CrossAxisAlignment.center,
-                        children: [
-                          Expanded(
-                            child: Row(
-                              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                              crossAxisAlignment: CrossAxisAlignment.start,
-                              children: <Widget>[
-                                GestureDetector(
-                                    onTap: () {
-                                      Navigator.pop(context);
-                                    },
-                                    child: const SizedBox(
-                                      height: 62,
-                                      child: Center(
-                                        child: Icon(
-                                          Icons.arrow_back,
-                                          color: Colors.white,
-                                          size: 32,
-                                        ),
+                  child: Column(children: [
+                    Row(
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      crossAxisAlignment: CrossAxisAlignment.center,
+                      children: [
+                        Expanded(
+                          child: Row(
+                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                            crossAxisAlignment: CrossAxisAlignment.start,
+                            children: <Widget>[
+                              GestureDetector(
+                                  onTap: () {
+                                    Navigator.pop(context);
+                                  },
+                                  child: const SizedBox(
+                                    height: 62,
+                                    child: Center(
+                                      child: Icon(
+                                        Icons.arrow_back,
+                                        color: Colors.white,
+                                        size: 32,
                                       ),
-                                    )),
-                                const SizedBox(
-                                  height: 62,
-                                  child: Center(
-                                    child: Text(
-                                      "Address",
-                                      style: TextStyle(
-                                          fontSize: 18,
-                                          color: Colors.white,
-                                          fontWeight: FontWeight.w700),
                                     ),
+                                  )),
+                              const SizedBox(
+                                height: 62,
+                                child: Center(
+                                  child: Text(
+                                    "Address",
+                                    style: TextStyle(
+                                        fontSize: 18,
+                                        color: Colors.white,
+                                        fontWeight: FontWeight.w700),
                                   ),
                                 ),
+                              ),
+                              Container(
+                                // Adjust the size as needed
+                                height: 62,
+                                width: 45, // Adjust the size as needed
+                                decoration: const BoxDecoration(
+                                  shape: BoxShape.circle,
+                                  color: Color(0xFF7974E7),
+                                ),
+                                child: const Center(
+                                  child: Icon(
+                                    Icons
+                                        .notifications, // Use the notification icon
+                                    color: Colors
+                                        .white, // Change the icon color as needed
+                                    size:
+                                        30.0, // Adjust the icon size as needed
+                                  ),
+                                ),
+                              ),
+                            ],
+                          ),
+                        ),
+                      ],
+                    ),
+                    Form(
+                      key: _formKey,
+                      child: Column(
+                        children: [
+                          SizedBox(
+                            height: height * 0.005,
+                          ),
+                          Padding(
+                            padding: const EdgeInsets.all(16.0),
+                            child: Container(
+                              decoration: BoxDecoration(
+                                borderRadius: BorderRadius.circular(10.0),
+                                color: Colors
+                                    .grey[200], // Off-white background color
+                              ),
+                              child: Padding(
+                                padding: const EdgeInsets.all(8.0),
+                                child: TextFormField(
+                                  controller: fullNameController,
+                                  decoration: const InputDecoration(
+                                    labelText: 'Your Name',
+                                    border: InputBorder
+                                        .none, // Remove default underline
+                                    contentPadding: EdgeInsets.all(8.0),
+                                    icon: Icon(Icons.person),
+                                  ),
+                                ),
+                              ),
+                            ),
+                          ),
+
+                          // Email Text Field with Border and Background Color
+                          Padding(
+                            padding: const EdgeInsets.all(16.0),
+                            child: Container(
+                              decoration: BoxDecoration(
+                                borderRadius: BorderRadius.circular(10.0),
+                                color: Colors
+                                    .grey[200], // Off-white background color
+                              ),
+                              child: Padding(
+                                padding: const EdgeInsets.all(8.0),
+                                child: TextFormField(
+                                  controller: emailController,
+                                  decoration: const InputDecoration(
+                                    labelText: 'Email',
+                                    border: InputBorder.none,
+                                    contentPadding: EdgeInsets.all(8.0),
+                                    icon: Icon(Icons.email),
+                                  ),
+                                ),
+                              ),
+                            ),
+                          ),
+
+                          Padding(
+                            padding: const EdgeInsets.all(16.0),
+                            child: Container(
+                              decoration: BoxDecoration(
+                                borderRadius: BorderRadius.circular(10.0),
+                                color: Colors
+                                    .grey[200], // Off-white background color
+                              ),
+                              child: Padding(
+                                padding: const EdgeInsets.all(8.0),
+                                child: TextFormField(
+                                  controller: emailController,
+                                  decoration: const InputDecoration(
+                                    labelText: 'Phone Number',
+                                    border: InputBorder.none,
+                                    contentPadding: EdgeInsets.all(8.0),
+                                    icon: Icon(Icons.call),
+                                  ),
+                                ),
+                              ),
+                            ),
+                          ),
+                          // Address Fields (City, State, Country, ZipCode) with Border and Background Color
+                          Padding(
+                            padding: const EdgeInsets.all(16.0),
+                            child: Column(
+                              children: <Widget>[
                                 Container(
-                                  // Adjust the size as needed
-                                  height: 62,
-                                  width: 45, // Adjust the size as needed
-                                  decoration: const BoxDecoration(
-                                    shape: BoxShape.circle,
-                                    color: Color(0xFF7974E7),
+                                  decoration: BoxDecoration(
+                                    borderRadius: BorderRadius.circular(10.0),
+                                    color: Colors.grey[
+                                        200], // Off-white background color
                                   ),
-                                  child: const Center(
-                                    child: Icon(
-                                      Icons
-                                          .notifications, // Use the notification icon
-                                      color: Colors
-                                          .white, // Change the icon color as needed
-                                      size: 30.0, // Adjust the icon size as needed
+                                  child: Padding(
+                                    padding: const EdgeInsets.all(8.0),
+                                    child: TextFormField(
+                                      controller: cityController,
+                                      decoration: const InputDecoration(
+                                        labelText: 'House no. / Event place',
+                                        border: InputBorder.none,
+                                        contentPadding: EdgeInsets.all(8.0),
+                                      ),
                                     ),
                                   ),
                                 ),
+                                // Repeat the same structure for State, Country, and ZipCode
                               ],
                             ),
                           ),
+                          Padding(
+                            padding: const EdgeInsets.all(16.0),
+                            child: Column(
+                              children: <Widget>[
+                                Container(
+                                  decoration: BoxDecoration(
+                                    borderRadius: BorderRadius.circular(10.0),
+                                    color: Colors.grey[
+                                        200], // Off-white background color
+                                  ),
+                                  child: Padding(
+                                    padding: const EdgeInsets.all(8.0),
+                                    child: TextFormField(
+                                      controller: stateController,
+                                      decoration: const InputDecoration(
+                                        labelText: 'Area/Street',
+                                        border: InputBorder.none,
+                                        contentPadding: EdgeInsets.all(8.0),
+                                      ),
+                                    ),
+                                  ),
+                                ),
+                                // Repeat the same structure for State, Country, and ZipCode
+                              ],
+                            ),
+                          ),
+                          Padding(
+                            padding: const EdgeInsets.all(16.0),
+                            child: Column(
+                              children: <Widget>[
+                                Container(
+                                  decoration: BoxDecoration(
+                                    borderRadius: BorderRadius.circular(10.0),
+                                    color: Colors.grey[
+                                        200], // Off-white background color
+                                  ),
+                                  child: Padding(
+                                    padding: const EdgeInsets.all(8.0),
+                                    child: TextFormField(
+                                      controller: countryController,
+                                      decoration: const InputDecoration(
+                                        labelText: 'City',
+                                        border: InputBorder.none,
+                                        contentPadding: EdgeInsets.all(8.0),
+                                      ),
+                                    ),
+                                  ),
+                                ),
+                                // Repeat the same structure for State, Country, and ZipCode
+                              ],
+                            ),
+                          ),
+                          Padding(
+                            padding: const EdgeInsets.all(16.0),
+                            child: Column(
+                              children: <Widget>[
+                                Container(
+                                  decoration: BoxDecoration(
+                                    borderRadius: BorderRadius.circular(10.0),
+                                    color: Colors.grey[
+                                        200], // Off-white background color
+                                  ),
+                                  child: Padding(
+                                    padding: const EdgeInsets.all(8.0),
+                                    child: TextFormField(
+                                      controller: zipCodeController,
+                                      decoration: const InputDecoration(
+                                        labelText: 'Pin no',
+                                        border: InputBorder.none,
+                                        contentPadding: EdgeInsets.all(8.0),
+                                      ),
+                                    ),
+                                  ),
+                                ),
+                                // Repeat the same structure for State, Country, and ZipCode
+                              ],
+                            ),
+                          ),
+                          // Update Profile Button
+                          Padding(
+                            padding: const EdgeInsets.all(16.0),
+                            child: Column(
+                              children: <Widget>[
+                                Container(
+                                  decoration: BoxDecoration(
+                                    borderRadius: BorderRadius.circular(10.0),
+                                    color: Colors.grey[
+                                        200], // Off-white background color
+                                  ),
+                                  child: Padding(
+                                    padding: const EdgeInsets.all(8.0),
+                                    child: TextFormField(
+                                      controller: zipCodeController,
+                                      decoration: const InputDecoration(
+                                        labelText: 'State',
+                                        border: InputBorder.none,
+                                        contentPadding: EdgeInsets.all(8.0),
+                                      ),
+                                    ),
+                                  ),
+                                ),
+                                // Repeat the same structure for State, Country, and ZipCode
+                              ],
+                            ),
+                          ),
+                          const SizedBox(
+                            height: 30,
+                          ),
+                          GestureDetector(
+                            onTap: () {
+                              setState(() {
+                                formProvider.zipCode = zipCodeController.text;
+                                formProvider.city = cityController.text;
+                                formProvider.state = stateController.text;
+                                
+
+
+                              });
+                              Navigator.push(
+                                  context,
+                                  MaterialPageRoute(
+                                      builder: ((context) => const Screen4())));
+                            },
+                            child: Container(
+                                padding: const EdgeInsets.symmetric(
+                                    horizontal: 24, vertical: 16),
+                                clipBehavior: Clip.antiAlias,
+                                decoration: ShapeDecoration(
+                                  color: Colors.white,
+                                  shape: RoundedRectangleBorder(
+                                    borderRadius: BorderRadius.circular(47),
+                                  ),
+                                ),
+                                child: const Center(
+                                  child: Text(
+                                    'Next',
+                                    style: TextStyle(
+                                      color: Color(0xFF5668FF),
+                                      fontSize: 16,
+                                      fontFamily: 'Inter',
+                                      fontWeight: FontWeight.w600,
+                                      height: 0,
+                                    ),
+                                  ),
+                                )),
+                          ),
+                          const SizedBox(
+                            height: 60,
+                          ),
                         ],
                       ),
-                      Column(children: [
-                        SizedBox(
-                          height: height * 0.005,
-                        ),
-                        Padding(
-                          padding: const EdgeInsets.all(16.0),
-                          child: Container(
-                            decoration: BoxDecoration(
-                              borderRadius: BorderRadius.circular(10.0),
-                              color: Colors.grey[200], // Off-white background color
-                            ),
-                            child: Padding(
-                              padding: const EdgeInsets.all(8.0),
-                              child: TextFormField(
-                                controller: fullNameController,
-                                decoration: InputDecoration(
-                                  labelText: 'Your Name',
-                                  border: InputBorder.none, // Remove default underline
-                                  contentPadding:  EdgeInsets.all(8.0),
-                                  icon: Icon(Icons.person),
-                                ),
-                              ),
-                            ),
-                          ),
-                        ),
-
-                        // Email Text Field with Border and Background Color
-                        Padding(
-                          padding: const EdgeInsets.all(16.0),
-                          child: Container(
-                            decoration: BoxDecoration(
-                              borderRadius: BorderRadius.circular(10.0),
-                              color: Colors.grey[200], // Off-white background color
-                            ),
-                            child: Padding(
-                              padding: const EdgeInsets.all(8.0),
-                              child: TextFormField(
-                                controller: emailController,
-                                decoration: InputDecoration(
-                                  labelText: 'Email',
-                                  border: InputBorder.none,
-                                  contentPadding:  EdgeInsets.all(8.0),
-                                  icon: Icon(Icons.email),
-                                ),
-                              ),
-                            ),
-                          ),
-                        ),
-
-
-                        Padding(
-                          padding: const EdgeInsets.all(16.0),
-                          child: Container(
-                            decoration: BoxDecoration(
-                              borderRadius: BorderRadius.circular(10.0),
-                              color: Colors.grey[200], // Off-white background color
-                            ),
-                            child: Padding(
-                              padding: const EdgeInsets.all(8.0),
-                              child: TextFormField(
-                                controller: emailController,
-                                decoration: InputDecoration(
-                                  labelText: 'Phone Number',
-                                  border: InputBorder.none,
-                                  contentPadding:  EdgeInsets.all(8.0),
-                                  icon: Icon(Icons.call),
-                                ),
-                              ),
-                            ),
-                          ),
-                        ),
-                        // Address Fields (City, State, Country, ZipCode) with Border and Background Color
-                        Padding(
-                          padding: const EdgeInsets.all(16.0),
-                          child: Column(
-                            children: <Widget>[
-                              Container(
-                                decoration: BoxDecoration(
-                                  borderRadius: BorderRadius.circular(10.0),
-                                  color: Colors.grey[200], // Off-white background color
-                                ),
-                                child: Padding(
-                                  padding: const EdgeInsets.all(8.0),
-                                  child: TextFormField(
-                                    controller: cityController,
-                                    decoration: InputDecoration(
-                                      labelText: 'House no. / Event place',
-                                      border: InputBorder.none,
-                                      contentPadding:  EdgeInsets.all(8.0),
-                                    ),
-                                  ),
-                                ),
-                              ),
-                              // Repeat the same structure for State, Country, and ZipCode
-                            ],
-                          ),
-                        ),
-                        Padding(
-                          padding: const EdgeInsets.all(16.0),
-                          child: Column(
-                            children: <Widget>[
-                              Container(
-                                decoration: BoxDecoration(
-                                  borderRadius: BorderRadius.circular(10.0),
-                                  color: Colors.grey[200], // Off-white background color
-                                ),
-                                child: Padding(
-                                  padding: const EdgeInsets.all(8.0),
-                                  child: TextFormField(
-                                    controller: stateController,
-                                    decoration: InputDecoration(
-                                      labelText: 'Area/Street',
-                                      border: InputBorder.none,
-                                      contentPadding:  EdgeInsets.all(8.0),
-                                    ),
-                                  ),
-                                ),
-                              ),
-                              // Repeat the same structure for State, Country, and ZipCode
-                            ],
-                          ),
-                        ),
-                        Padding(
-                          padding: const EdgeInsets.all(16.0),
-                          child: Column(
-                            children: <Widget>[
-                              Container(
-                                decoration: BoxDecoration(
-                                  borderRadius: BorderRadius.circular(10.0),
-                                  color: Colors.grey[200], // Off-white background color
-                                ),
-                                child: Padding(
-                                  padding: const EdgeInsets.all(8.0),
-                                  child: TextFormField(
-                                    controller: countryController,
-                                    decoration: InputDecoration(
-                                      labelText: 'City',
-                                      border: InputBorder.none,
-                                      contentPadding:  EdgeInsets.all(8.0),
-                                    ),
-                                  ),
-                                ),
-                              ),
-                              // Repeat the same structure for State, Country, and ZipCode
-                            ],
-                          ),
-                        ),
-                        Padding(
-                          padding: const EdgeInsets.all(16.0),
-                          child: Column(
-                            children: <Widget>[
-                              Container(
-                                decoration: BoxDecoration(
-                                  borderRadius: BorderRadius.circular(10.0),
-                                  color: Colors.grey[200], // Off-white background color
-                                ),
-                                child: Padding(
-                                  padding: const EdgeInsets.all(8.0),
-                                  child: TextFormField(
-                                    controller: zipCodeController,
-                                    decoration: InputDecoration(
-                                      labelText: 'Pin no',
-                                      border: InputBorder.none,
-                                      contentPadding:  EdgeInsets.all(8.0),
-                                    ),
-                                  ),
-                                ),
-                              ),
-                              // Repeat the same structure for State, Country, and ZipCode
-                            ],
-                          ),
-                        ),
-                        // Update Profile Button
-                        Padding(
-                          padding: const EdgeInsets.all(16.0),
-                          child: Column(
-                            children: <Widget>[
-                              Container(
-                                decoration: BoxDecoration(
-                                  borderRadius: BorderRadius.circular(10.0),
-                                  color: Colors.grey[200], // Off-white background color
-                                ),
-                                child: Padding(
-                                  padding: const EdgeInsets.all(8.0),
-                                  child: TextFormField(
-                                    controller: zipCodeController,
-                                    decoration: InputDecoration(
-                                      labelText: 'State',
-                                      border: InputBorder.none,
-                                      contentPadding:  EdgeInsets.all(8.0),
-                                    ),
-                                  ),
-                                ),
-                              ),
-                              // Repeat the same structure for State, Country, and ZipCode
-                            ],
-                          ),
-                        ),
-                        SizedBox(height: 30,),
-                        GestureDetector(
-                          onTap:  (){ Navigator.push(context,
-                              MaterialPageRoute(builder: ((context) => Screen4())));},
-                          child: Container(
-                              padding: const EdgeInsets.symmetric(
-                                  horizontal: 24, vertical: 16),
-                              clipBehavior: Clip.antiAlias,
-                              decoration: ShapeDecoration(
-                                color: Colors.white,
-                                shape: RoundedRectangleBorder(
-                                  borderRadius: BorderRadius.circular(47),
-                                ),
-                              ),
-                              child: Center(
-                                child: Text(
-                                  'Next',
-                                  style: TextStyle(
-                                    color: Color(0xFF5668FF),
-                                    fontSize: 16,
-                                    fontFamily: 'Inter',
-                                    fontWeight: FontWeight.w600,
-                                    height: 0,
-                                  ),
-                                ),
-                              )),
-                        ),
-                        SizedBox(
-                          height: 60,
-                        ),
-                    ],
-                  ),
-              ]
-    )))
-            ],
-          ),
-        ));
+                    ),
+                  ])))
+        ],
+      ),
+    ));
   }
 }

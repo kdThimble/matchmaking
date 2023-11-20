@@ -15,6 +15,7 @@ class FormProvider extends ChangeNotifier {
   String get categoryId => _categoryId;
   set categoryId(String value) {
     _categoryId = value;
+    print("category id set");
     notifyListeners();
   }
 

@@ -1,4 +1,4 @@
-class ServiceRequest {
+class ServiceDetail {
   String? id;
   String? userId;
   String? categoryId;
@@ -7,14 +7,15 @@ class ServiceRequest {
   Address? address;
   String? startDate;
   String? endDate;
-  dynamic? lowestBudget;
-  dynamic? highestBudget;
+  int? lowestBudget;
+  int? highestBudget;
   bool? manPowerNeeded;
   bool? requestApproval;
+  List<Bids>? bids;
   Category? category;
   User? user;
 
-  ServiceRequest(
+  ServiceDetail(
       {this.id,
       this.userId,
       this.categoryId,
@@ -27,10 +28,11 @@ class ServiceRequest {
       this.highestBudget,
       this.manPowerNeeded,
       this.requestApproval,
+      this.bids,
       this.category,
       this.user});
 
-  ServiceRequest.fromJson(Map<dynamic, dynamic> json) {
+  ServiceDetail.fromJson(Map<String, dynamic> json) {
     id = json['id'];
     userId = json['userId'];
     categoryId = json['categoryId'];
@@ -44,14 +46,20 @@ class ServiceRequest {
     highestBudget = json['highestBudget'];
     manPowerNeeded = json['manPowerNeeded'];
     requestApproval = json['requestApproval'];
+    if (json['bids'] != null) {
+      bids = <Bids>[];
+      json['bids'].forEach((v) {
+        bids!.add(Bids.fromJson(v));
+      });
+    }
     category = json['category'] != null
         ? new Category.fromJson(json['category'])
         : null;
     user = json['user'] != null ? new User.fromJson(json['user']) : null;
   }
 
-  Map<dynamic, dynamic> toJson() {
-    final Map<dynamic, dynamic> data = new Map<String, dynamic>();
+  Map<String, dynamic> toJson() {
+    final Map<String, dynamic> data = new Map<String, dynamic>();
     data['id'] = this.id;
     data['userId'] = this.userId;
     data['categoryId'] = this.categoryId;
@@ -66,6 +74,9 @@ class ServiceRequest {
     data['highestBudget'] = this.highestBudget;
     data['manPowerNeeded'] = this.manPowerNeeded;
     data['requestApproval'] = this.requestApproval;
+    if (this.bids != null) {
+      data['bids'] = this.bids!.map((v) => v.toJson()).toList();
+    }
     if (this.category != null) {
       data['category'] = this.category!.toJson();
     }
@@ -108,6 +119,98 @@ class Address {
   }
 }
 
+class Bids {
+  String? id;
+  String? serviceRequestId;
+  String? agencyId;
+  int? price;
+  String? message;
+  bool? accepted;
+  Agency? agency;
+
+  Bids(
+      {this.id,
+      this.serviceRequestId,
+      this.agencyId,
+      this.price,
+      this.message,
+      this.accepted,
+      this.agency});
+
+  Bids.fromJson(Map<String, dynamic> json) {
+    id = json['id'];
+    serviceRequestId = json['serviceRequestId'];
+    agencyId = json['agencyId'];
+    price = json['price'];
+    message = json['message'];
+    accepted = json['accepted'];
+    agency =
+        json['agency'] != null ? new Agency.fromJson(json['agency']) : null;
+  }
+
+  Map<String, dynamic> toJson() {
+    final Map<String, dynamic> data = new Map<String, dynamic>();
+    data['id'] = this.id;
+    data['serviceRequestId'] = this.serviceRequestId;
+    data['agencyId'] = this.agencyId;
+    data['price'] = this.price;
+    data['message'] = this.message;
+    data['accepted'] = this.accepted;
+    if (this.agency != null) {
+      data['agency'] = this.agency!.toJson();
+    }
+    return data;
+  }
+}
+
+class Agency {
+  String? id;
+  String? name;
+  String? description;
+  List<dynamic>? documents;
+  String? createdAt;
+  String? updatedAt;
+  String? userId;
+
+  Agency(
+      {this.id,
+      this.name,
+      this.description,
+      this.documents,
+      this.createdAt,
+      this.updatedAt,
+      this.userId});
+
+  Agency.fromJson(Map<String, dynamic> json) {
+    id = json['id'];
+    name = json['name'];
+    description = json['description'];
+    if (json['documents'] != null) {
+      documents = <dynamic>[];
+      json['documents'].forEach((v) {
+        documents!.add(v);
+      });
+    }
+    createdAt = json['createdAt'];
+    updatedAt = json['updatedAt'];
+    userId = json['userId'];
+  }
+
+  Map<String, dynamic> toJson() {
+    final Map<String, dynamic> data = new Map<String, dynamic>();
+    data['id'] = this.id;
+    data['name'] = this.name;
+    data['description'] = this.description;
+    if (this.documents != null) {
+      data['documents'] = this.documents!.map((v) => v.toJson()).toList();
+    }
+    data['createdAt'] = this.createdAt;
+    data['updatedAt'] = this.updatedAt;
+    data['userId'] = this.userId;
+    return data;
+  }
+}
+
 class Category {
   String? id;
   String? name;
@@ -116,15 +219,15 @@ class Category {
 
   Category({this.id, this.name, this.description, this.disabled});
 
-  Category.fromJson(Map<dynamic, dynamic> json) {
+  Category.fromJson(Map<String, dynamic> json) {
     id = json['id'];
     name = json['name'];
     description = json['description'];
     disabled = json['disabled'];
   }
 
-  Map<dynamic, dynamic> toJson() {
-    final Map<dynamic, dynamic> data = new Map<dynamic, dynamic>();
+  Map<String, dynamic> toJson() {
+    final Map<String, dynamic> data = new Map<String, dynamic>();
     data['id'] = this.id;
     data['name'] = this.name;
     data['description'] = this.description;
@@ -138,11 +241,11 @@ class User {
   String? fullName;
   String? email;
   String? password;
-  String? phone;
+  Null? phone;
   Address? address;
   bool? active;
   bool? verified;
-  String? verifiedAt;
+  Null? verifiedAt;
   String? createdAt;
   String? updatedAt;
   String? role;

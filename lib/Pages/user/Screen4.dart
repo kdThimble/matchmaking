@@ -1,6 +1,12 @@
+import 'package:another_flushbar/flushbar.dart';
 import 'package:flutter/material.dart';
+import 'package:matchmaking/providers/form_provider.dart';
+import 'package:provider/provider.dart';
 import 'package:syncfusion_flutter_sliders/sliders.dart';
 import 'package:syncfusion_flutter_core/theme.dart';
+
+import '../../providers/auth_provider.dart';
+import '../TransitionPage.dart';
 
 class Screen4 extends StatefulWidget {
   const Screen4({super.key});
@@ -12,6 +18,102 @@ class Screen4 extends StatefulWidget {
 class _Screen4State extends State<Screen4> {
   SfRangeValues _values = const SfRangeValues(50000.0, 80000.0);
   TextEditingController descriptionController = TextEditingController();
+  Future<void> showErrorDialog(BuildContext context) async {
+    return showDialog<void>(
+      context: context,
+      barrierDismissible: false, // user must tap button!
+      builder: (BuildContext context) {
+        return AlertDialog(
+          title: Container(
+            // Container for the image
+            child: Image.asset(
+              'assets/img_13.png', // Replace with your image URL
+              fit: BoxFit.cover,
+            ),
+          ),
+          content: Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            mainAxisSize: MainAxisSize.min,
+            children: [
+              const SizedBox(height: 16),
+              const Center(
+                child: Text(
+                  'Error!',
+                  textAlign: TextAlign.center,
+                  style: TextStyle(
+                    color: Color.fromARGB(255, 255, 111, 86),
+                    fontSize: 24,
+                    fontFamily: 'Nunito',
+                    fontWeight: FontWeight.w700,
+                    height: 0.07,
+                  ),
+                ),
+              ),
+              const SizedBox(height: 30),
+              const Center(
+                child: Text(
+                  'Please Try again later',
+                  textAlign: TextAlign.center,
+                  style: TextStyle(
+                    color: Color(0xFF212121),
+                    fontSize: 16,
+                    fontFamily: 'Nunito',
+                    fontWeight: FontWeight.w400,
+                    height: 0.09,
+                    letterSpacing: 0.20,
+                  ),
+                ),
+              ),
+              const SizedBox(height: 20),
+              const Center(
+                child: Text(
+                  'we are preparing for you...',
+                  textAlign: TextAlign.center,
+                  style: TextStyle(
+                    color: Color(0xFF212121),
+                    fontSize: 16,
+                    fontFamily: 'Nunito',
+                    fontWeight: FontWeight.w400,
+                    height: 0.09,
+                    letterSpacing: 0.20,
+                  ),
+                ),
+              ),
+              const SizedBox(height: 20),
+              // Circular dotted animation (you can replace this with your own loading indicator)
+              Center(
+                child: TextButton(
+                  onPressed: () {
+                    Navigator.of(context).pop();
+                  },
+                  child: const Text(
+                    'Okay',
+                    style: TextStyle(
+                      color: Color.fromARGB(255, 244, 52, 52),
+                      fontSize: 16,
+                      fontFamily: 'Nunito',
+                      fontWeight: FontWeight.w400,
+                      height: 0.09,
+                      letterSpacing: 0.20,
+                    ),
+                  ),
+                ),
+              ),
+            ],
+          ),
+          // actions: [
+          //   TextButton(
+          //     onPressed: () {
+          //       Navigator.of(context).pop();
+          //     },
+          //     child: Text('Close'),
+          //   ),
+          // ],
+        );
+      },
+    );
+  }
+
   Future<void> showSuccessDialog(BuildContext context) async {
     return showDialog<void>(
       context: context,
@@ -29,8 +131,8 @@ class _Screen4State extends State<Screen4> {
             crossAxisAlignment: CrossAxisAlignment.start,
             mainAxisSize: MainAxisSize.min,
             children: [
-              SizedBox(height: 16),
-              Center(
+              const SizedBox(height: 16),
+              const Center(
                 child: Text(
                   'Successful!',
                   textAlign: TextAlign.center,
@@ -43,13 +145,13 @@ class _Screen4State extends State<Screen4> {
                   ),
                 ),
               ),
-              SizedBox(height: 30),
-              Center(
+              const SizedBox(height: 30),
+              const Center(
                 child: Text(
                   'Please wait a moment',
                   textAlign: TextAlign.center,
                   style: TextStyle(
-                    color: Color(0xFF212121),
+                    color: Color(0xFF5668FF),
                     fontSize: 16,
                     fontFamily: 'Nunito',
                     fontWeight: FontWeight.w400,
@@ -58,13 +160,13 @@ class _Screen4State extends State<Screen4> {
                   ),
                 ),
               ),
-              SizedBox(height: 20),
-              Center(
+              const SizedBox(height: 20),
+              const Center(
                 child: Text(
                   'we are preparing for you...',
                   textAlign: TextAlign.center,
                   style: TextStyle(
-                    color: Color(0xFF212121),
+                    color: Color(0xFF5668FF),
                     fontSize: 16,
                     fontFamily: 'Nunito',
                     fontWeight: FontWeight.w400,
@@ -73,12 +175,35 @@ class _Screen4State extends State<Screen4> {
                   ),
                 ),
               ),
-              SizedBox(height: 20),
+              const SizedBox(height: 20),
               // Circular dotted animation (you can replace this with your own loading indicator)
               Center(
-                child: CircularProgressIndicator(
-                  strokeWidth: 2.0,
-                  valueColor: AlwaysStoppedAnimation<Color>(Color(0xFF5D56F3)),
+                child: Container(
+                  padding:
+                      const EdgeInsets.symmetric(horizontal: 48, vertical: 4),
+                  clipBehavior: Clip.antiAlias,
+                  decoration: ShapeDecoration(
+                    color: Color(0xFF5668FF),
+                    shape: RoundedRectangleBorder(
+                      borderRadius: BorderRadius.circular(47),
+                    ),
+                  ),
+                  child: TextButton(
+                    onPressed: () {
+                      Navigator.of(context).pop();
+                    },
+                    child: const Text(
+                      'Okay',
+                      style: TextStyle(
+                        color: Colors.white,
+                        fontSize: 24,
+                        fontFamily: 'Nunito',
+                        fontWeight: FontWeight.w400,
+                        height: 0.09,
+                        letterSpacing: 0.20,
+                      ),
+                    ),
+                  ),
                 ),
               ),
             ],
@@ -98,11 +223,51 @@ class _Screen4State extends State<Screen4> {
 
   late String _description;
   bool _isChecked = false;
+  TextEditingController titleController = TextEditingController();
   @override
   Widget build(BuildContext context) {
     var width = MediaQuery.of(context).size.width;
-
+    bool isLoading = true;
     var height = MediaQuery.of(context).size.height;
+    FormProvider formProvider = Provider.of<FormProvider>(context);
+    AuthProvider auth = Provider.of<AuthProvider>(context);
+
+    dynamic sendServiceRequest() {
+      print("title: ${formProvider.title}");
+      final Future<Map<String, dynamic>> respose;
+      respose = auth.sendServiceRequest(
+          formProvider.categoryId,
+          formProvider.brief,
+          titleController.text,
+          formProvider.city,
+          formProvider.state,
+          formProvider.zipCode,
+          formProvider.startDate,
+          formProvider.endDate,
+          _values.start,
+          _values.end,
+          _isChecked);
+      respose.then((response) {
+        if (response['status']) {
+          setState(() {
+            isLoading = false;
+          });
+
+          showSuccessDialog(context);
+        } else {
+          setState(() {
+            isLoading = false;
+          });
+          Flushbar(
+            title: "Registration Failed ",
+            message: response['message'].toString(),
+            duration: const Duration(seconds: 3),
+          ).show(context);
+          showErrorDialog(context);
+        }
+      });
+    }
+
     return Scaffold(
         body: SingleChildScrollView(
       child: Stack(
@@ -256,6 +421,24 @@ class _Screen4State extends State<Screen4> {
                   ),
                   const SizedBox(height: 20),
                   Container(
+                    decoration: BoxDecoration(
+                        borderRadius: BorderRadius.circular(12.0),
+                        color: Colors.white // Off-white background color
+                        ),
+                    child: Padding(
+                      padding: const EdgeInsets.all(8.0),
+                      child: TextFormField(
+                        controller: titleController,
+                        decoration: const InputDecoration(
+                          labelText: 'Title',
+                          border: InputBorder.none,
+                          contentPadding: EdgeInsets.all(8.0),
+                        ),
+                      ),
+                    ),
+                  ),
+                  const SizedBox(height: 20),
+                  Container(
                     height: height * 0.35,
                     padding: const EdgeInsets.all(10),
                     clipBehavior: Clip.antiAlias,
@@ -294,7 +477,7 @@ class _Screen4State extends State<Screen4> {
                             });
                           },
                         ),
-                       const Text(
+                        const Text(
                           'Need Man power',
                           style: TextStyle(
                               fontSize: 20,
@@ -306,7 +489,8 @@ class _Screen4State extends State<Screen4> {
                   ),
                   GestureDetector(
                     onTap: () {
-                      showSuccessDialog(context);
+                      print("button tapped");
+                      sendServiceRequest();
                     },
                     child: Container(
                         padding: const EdgeInsets.symmetric(

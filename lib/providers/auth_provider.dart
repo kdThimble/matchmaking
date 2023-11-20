@@ -147,4 +147,62 @@ class AuthProvider extends ChangeNotifier {
 
     return result;
   }
+
+  Future<Map<String, dynamic>> sendServiceRequest(
+      String categoryId,
+      String brief,
+      String title,
+      String city,
+      String state,
+      String zipCode,
+      DateTime startDate,
+      DateTime endDate,
+      double minBudget,
+      double maxBudget,
+      bool manPowerNeeded) async {
+    print("in service request");
+    var result;
+
+    var url = Uri.parse(AppUrls.sendServiceRequest);
+
+    final response = await http.post(
+      url,
+      headers: <String, String>{
+        'Content-Type': 'application/json; charset=UTF-8',
+        'Authorization': 'Bearer $_token',
+      },
+      body: jsonEncode(<String, dynamic>{
+        'categoryId': categoryId,
+        'brief': brief,
+        'title': title,
+        "address": {
+          'city': city,
+          'state': state,
+          'zipCode': zipCode,
+          "country": "",
+          "lat": "",
+          "lng": ""
+        },
+        'startDate': startDate.toIso8601String(),
+        'endDate': endDate.toIso8601String(),
+        'lowestBudget': minBudget,
+        'highestBudget': maxBudget,
+        'manPowerNeeded': manPowerNeeded,
+      }),
+    );
+    print("Response ${response.body} ${response.statusCode}");
+
+    if (response.statusCode >= 200 && response.statusCode < 300) {
+      _loggedInStatus = Status.LoggedIn;
+      final jsonResponse = jsonDecode(response.body);
+
+      result = {'status': true, 'message': 'Request Sent Successful'};
+    } else {
+      _loggedInStatus = Status.NotLoggedIn;
+      notifyListeners();
+      result = {'status': false, 'message': "Request Failed"};
+    }
+
+    return result;
+  }
 }

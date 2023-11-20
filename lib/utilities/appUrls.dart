@@ -5,4 +5,5 @@ class AppUrls {
   static const String register = '$baseUrl/auth/register';
   static const String registerAgency = '$baseUrl/agency/create';
   static const String getUser = '$baseUrl/users/profile';
+  static const String sendServiceRequest = '$baseUrl/serviceRequest/create';
 }

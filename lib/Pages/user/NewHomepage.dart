@@ -2,6 +2,7 @@ import 'dart:convert';
 import 'dart:ui';
 
 import 'package:flutter/material.dart';
+import 'package:matchmaking/Pages/LoginScreen.dart';
 import 'package:matchmaking/Pages/Profilepage.dart';
 import 'package:matchmaking/Pages/user/Screen2.dart';
 import 'package:http/http.dart' as http;
@@ -22,7 +23,7 @@ class Newhomepage extends StatefulWidget {
 class _NewhomepageState extends State<Newhomepage> {
   int _selectedIndex = 0; // Index of the selected tab
   List<dynamic> agencies = [];
-
+  final GlobalKey<ScaffoldState> _scaffoldKey = GlobalKey<ScaffoldState>();
   final List<Widget> _tabs = [
     Image.asset('assets/home-2.png'),
     Image.asset('assets/frame.png'),
@@ -82,6 +83,7 @@ class _NewhomepageState extends State<Newhomepage> {
     var height = MediaQuery.of(context).size.height;
     final formProvider = Provider.of<FormProvider>(context);
     return Scaffold(
+      key: _scaffoldKey,
       drawer: Drawer(
         child: ListView(
           padding: EdgeInsets.zero,
@@ -133,6 +135,24 @@ class _NewhomepageState extends State<Newhomepage> {
                         builder: ((context) => const AgencyRegistration())));
               },
             ),
+            ListTile(
+              leading: const Icon(
+                Icons.add_business,
+                color: Color(0xFF5669FF),
+              ),
+              title: const Text('Log Out',
+                  style: TextStyle(
+                      color: Color(0xFF5669FF),
+                      fontSize: 16,
+                      fontWeight: FontWeight.w500)),
+              textColor: const Color(0xFF5669FF),
+              onTap: () {
+                Navigator.pushReplacement(
+                    context,
+                    MaterialPageRoute(
+                        builder: ((context) => const LoginScreen())));
+              },
+            ),
           ],
         ),
       ),
@@ -163,7 +183,7 @@ class _NewhomepageState extends State<Newhomepage> {
                           children: <Widget>[
                             GestureDetector(
                                 onTap: () {
-                                  Navigator.pop(context);
+                                  _scaffoldKey.currentState!.openDrawer();
                                 },
                                 child: const SizedBox(
                                   height: 62,
@@ -224,7 +244,10 @@ class _NewhomepageState extends State<Newhomepage> {
                                   children: [
                                     GestureDetector(
                                       onTap: () {
-                                        formProvider.categoryId = category.id!;
+                                        setState(() {
+                                          formProvider.categoryId =
+                                              category.id!;
+                                        });
 
                                         Navigator.push(
                                             context,

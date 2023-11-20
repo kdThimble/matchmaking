@@ -6,7 +6,6 @@ import 'package:matchmaking/providers/auth_provider.dart';
 import 'package:provider/provider.dart';
 import 'package:http/http.dart' as http;
 
-
 class ServiceDetails extends StatefulWidget {
   final String requestId;
 
@@ -19,12 +18,12 @@ class ServiceDetails extends StatefulWidget {
 class _ServiceDetailsState extends State<ServiceDetails> {
   ServiceRequestDetails? agency;
 
-
   @override
   void initState() {
     super.initState();
     fetchAndSaveData();
   }
+
   Future<void> fetchAndSaveData() async {
     final userProvider = Provider.of<AuthProvider>(context, listen: false);
     final authToken = userProvider.token;
@@ -35,7 +34,8 @@ class _ServiceDetailsState extends State<ServiceDetails> {
 
     var request = http.Request(
       'GET',
-      Uri.parse('https://eventmanagementproject.onrender.com/api/v1/serviceRequest/${widget.requestId}'),
+      Uri.parse(
+          'https://eventmanagementproject.onrender.com/api/v1/serviceRequest/${widget.requestId}'),
     );
     request.headers.addAll(headers);
 
@@ -71,8 +71,10 @@ class _ServiceDetailsState extends State<ServiceDetails> {
       print("Lowest Budget: ${agency?.lowestBudget}");
       print("Highest Budget: ${agency?.highestBudget}");
       print("Bids: ${agency?.bids}");
-      var formattedStartDate = DateFormat.yMMMMd().format(agency?.Startdate as DateTime);
-      var formattedEndDate = DateFormat.yMMMMd().format(agency?.Enddate as DateTime);
+      var formattedStartDate =
+          DateFormat.yMMMMd().format(agency?.Startdate as DateTime);
+      var formattedEndDate =
+          DateFormat.yMMMMd().format(agency?.Enddate as DateTime);
 
       print("Formatted Start Date: $formattedStartDate");
       print("Formatted End Date: $formattedEndDate");
@@ -83,27 +85,28 @@ class _ServiceDetailsState extends State<ServiceDetails> {
 
   @override
   Widget build(BuildContext context) {
-    var formattedStartDate = DateFormat.yMMMMd().format(agency!.Startdate );
+    var formattedStartDate = DateFormat.yMMMMd().format(agency!.Startdate);
     var formattedEndDate = DateFormat.yMMMMd().format(agency!.Enddate);
     return MaterialApp(
       home: Scaffold(
         appBar: AppBar(
-          title: Center(child: Text('Service Detail')),
-          shape: RoundedRectangleBorder(
+          title: const Center(child: Text('Service Detail')),
+          shape: const RoundedRectangleBorder(
             borderRadius: BorderRadius.vertical(
               bottom: Radius.circular(30),
             ),
           ),
-          backgroundColor: Color(0xFF5D56F3),
+          backgroundColor: const Color(0xFF5D56F3),
           leading: IconButton(
-            icon: Icon(Icons.menu),
+            icon: const Icon(Icons.arrow_back),
             onPressed: () {
               // Add your slider icon on pressed logic here
+              Navigator.pop(context);
             },
           ),
           actions: [
             IconButton(
-              icon: Icon(Icons.notifications),
+              icon: const Icon(Icons.notifications),
               onPressed: () {
                 // Add your notification icon on pressed logic here
               },
@@ -123,19 +126,14 @@ class _ServiceDetailsState extends State<ServiceDetails> {
                     children: [
                       Text(
                         agency!.title ?? "No Title", // Display the title
-                        style: TextStyle(
+                        style: const TextStyle(
                           fontSize: 18,
                           fontWeight: FontWeight.bold,
                         ),
                       ),
-                      SizedBox(width: 8),
-                      Text(
-                        'Posted 7 hours ago',
-                        style: TextStyle(color: Colors.grey),
-                      ),
                     ],
                   ),
-                  SizedBox(height: 10),
+                  const SizedBox(height: 10),
                   Row(
                     children: [
                       Icon(
@@ -144,94 +142,112 @@ class _ServiceDetailsState extends State<ServiceDetails> {
                       ),
                       SizedBox(width: 4),
                       Text(
-                        'New Delhi',
+                        agency!.address["city"],
                         style: TextStyle(color: Colors.grey),
                       ),
                     ],
                   ),
-                  Divider(), // Divider after the first column
-                  SizedBox(height: 10),
+                  const Divider(), // Divider after the first column
+                  const SizedBox(height: 10),
                   Text(
                     agency!.brief ?? "No Title",
-                    style: TextStyle(fontSize: 16),
+                    style: const TextStyle(fontSize: 16),
                   ),
-                  Divider(), // Divider after the Lorem Ipsum text
-                  SizedBox(height: 10),
+                  const Divider(), // Divider after the Lorem Ipsum text
+                  const SizedBox(height: 10),
                   Column(
                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
                     children: [
                       Row(
                         children: [
-                          Icon(
+                          const Icon(
                             Icons.currency_rupee,
                             color: Colors.grey,
                           ),
-                          SizedBox(width: 4),
+                          const SizedBox(width: 4),
                           Text(
                             agency?.lowestBudget as String,
-                            style: TextStyle(color: Colors.grey),
+                            style: const TextStyle(color: Colors.grey),
                           ),
-                          SizedBox(width: 4),
-                          Text(
+                          const SizedBox(width: 4),
+                          const Text(
                             '-',
                             style: TextStyle(color: Colors.grey),
                           ),
-                          SizedBox(width: 4),
+                          const SizedBox(width: 4),
                           Text(
                             agency?.highestBudget as String,
-                            style: TextStyle(color: Colors.grey),
+                            style: const TextStyle(color: Colors.grey),
                           ),
                         ],
                       ),
-                      SizedBox(height: 10),
+                      const SizedBox(height: 10),
                       Row(
                         children: [
-                          Icon(
+                          const Icon(
                             Icons.data_exploration_rounded,
                             color: Colors.grey,
                           ),
-                          SizedBox(width: 4),
+                          const SizedBox(width: 4),
                           Text(
                             formattedStartDate,
-                            style: TextStyle(color: Colors.grey),
+                            style: const TextStyle(color: Colors.grey),
                           ),
-                          SizedBox(width: 4),
-                          Text(
+                          const SizedBox(width: 4),
+                          const Text(
                             'to',
                             style: TextStyle(color: Colors.grey),
                           ),
-                          SizedBox(width: 4),
+                          const SizedBox(width: 4),
                           Text(
                             formattedEndDate,
-                            style: TextStyle(color: Colors.grey),
+                            style: const TextStyle(color: Colors.grey),
                           ),
                         ],
                       ),
                     ],
                   ),
-                  Divider(), // Divider after the second row
-                  SizedBox(height: 10),
-                  Text(
+                  const Divider(), // Divider after the second row
+                  const SizedBox(height: 10),
+                  const Text(
                     'Top Biddings',
                     style: TextStyle(
                       fontSize: 18,
                       fontWeight: FontWeight.bold,
                     ),
                   ),
-                  SizedBox(height: 10),
-                  Row(
+                  const SizedBox(height: 10),
+                  const Row(
                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
                     children: [
-                      Text('Live Proposals' ,textAlign: TextAlign.center, style: TextStyle(color: Color(0xFF667085),),),
-                      Text('Bid', textAlign: TextAlign.center,style: TextStyle(color: Color(0xFF667085),),),
-                      Text('Time', textAlign: TextAlign.center,style: TextStyle(color: Color(0xFF667085),),),
+                      Text(
+                        'Live Proposals',
+                        textAlign: TextAlign.center,
+                        style: TextStyle(
+                          color: Color(0xFF667085),
+                        ),
+                      ),
+                      Text(
+                        'Bid',
+                        textAlign: TextAlign.center,
+                        style: TextStyle(
+                          color: Color(0xFF667085),
+                        ),
+                      ),
+                      Text(
+                        'Time',
+                        textAlign: TextAlign.center,
+                        style: TextStyle(
+                          color: Color(0xFF667085),
+                        ),
+                      ),
                     ],
                   ),
-                  Divider(), // Divider after the column headers
-                  SizedBox(height: 5),
+                  const Divider(), // Divider after the column headers
+                  const SizedBox(height: 5),
                   // Sample Bidding Data
                   BiddingRow(agency!.bids),
-                  SizedBox(height: 5),
+                  const SizedBox(height: 5),
                 ],
               ),
             ),
@@ -239,18 +255,18 @@ class _ServiceDetailsState extends State<ServiceDetails> {
         ),
         bottomNavigationBar: Container(
           height: 50,
-          margin: EdgeInsets.symmetric(vertical: 24, horizontal: 12),
+          margin: const EdgeInsets.symmetric(vertical: 24, horizontal: 12),
           child: Row(
             children: <Widget>[
               Container(
                 height: 70,
                 width: 170,
                 decoration: BoxDecoration(
-                  color: Color(0xFF5668FF),
+                  color: const Color(0xFF5668FF),
                   borderRadius: BorderRadius.circular(8),
                 ),
-                child: Padding(
-                  padding: const EdgeInsets.all(8.0),
+                child: const Padding(
+                  padding: EdgeInsets.all(8.0),
                   child: Center(
                     child: Text(
                       '₹ Bid',
@@ -265,18 +281,20 @@ class _ServiceDetailsState extends State<ServiceDetails> {
                   ),
                 ),
               ),
-              SizedBox(width: 40,),
+              const SizedBox(
+                width: 40,
+              ),
               Container(
                 height: 70,
-                width: 170,
+                width: 150,
                 decoration: BoxDecoration(
                   color: Colors.white,
                   borderRadius: BorderRadius.circular(8),
                   border: Border.all(
-                    color: Color(0xFF5668FF),
+                    color: const Color(0xFF5668FF),
                   ),
                 ),
-                child: Center(
+                child: const Center(
                   child: Row(
                     mainAxisAlignment: MainAxisAlignment.center,
                     children: [
@@ -304,6 +322,7 @@ class _ServiceDetailsState extends State<ServiceDetails> {
     );
   }
 }
+
 class BiddingRow extends StatelessWidget {
   final List<Map<String, dynamic>> bids;
 
@@ -318,9 +337,10 @@ class BiddingRow extends StatelessWidget {
           child: Row(
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: [
-              Text(bid['place'] ?? '',
+              Text(
+                bid['place'] ?? '',
                 textAlign: TextAlign.center,
-                style: TextStyle(
+                style: const TextStyle(
                   color: Color(0xFF667085),
                   fontSize: 12,
                   fontFamily: 'Inter',
@@ -328,10 +348,13 @@ class BiddingRow extends StatelessWidget {
                   height: 0.25,
                 ),
               ),
-              SizedBox(width: 25,),
-              Text(bid['bid'] ?? '',
+              const SizedBox(
+                width: 25,
+              ),
+              Text(
+                bid['bid'] ?? '',
                 textAlign: TextAlign.center,
-                style: TextStyle(
+                style: const TextStyle(
                   color: Color(0xFF667085),
                   fontSize: 12,
                   fontFamily: 'Inter',
@@ -339,10 +362,13 @@ class BiddingRow extends StatelessWidget {
                   height: 0.25,
                 ),
               ),
-              SizedBox(width: 5,),
-              Text(bid['time'] ?? '',
+              const SizedBox(
+                width: 5,
+              ),
+              Text(
+                bid['time'] ?? '',
                 textAlign: TextAlign.center,
-                style: TextStyle(
+                style: const TextStyle(
                   color: Color(0xFF667085),
                   fontSize: 12,
                   fontFamily: 'Inter',
@@ -363,7 +389,7 @@ class BottomBar extends StatelessWidget {
   Widget build(BuildContext context) {
     return Container(
       color: Colors.white,
-      padding: EdgeInsets.all(16),
+      padding: const EdgeInsets.all(16),
       child: Stack(
         children: [
           Positioned(
@@ -372,10 +398,10 @@ class BottomBar extends StatelessWidget {
               height: 50,
               width: 120,
               decoration: BoxDecoration(
-                color: Color(0xFF5668FF),
+                color: const Color(0xFF5668FF),
                 borderRadius: BorderRadius.circular(8),
               ),
-              child: Center(
+              child: const Center(
                 child: Text(
                   '₹ Bid',
                   style: TextStyle(
@@ -398,10 +424,10 @@ class BottomBar extends StatelessWidget {
                 color: Colors.white,
                 borderRadius: BorderRadius.circular(8),
                 border: Border.all(
-                  color: Color(0xFF5668FF),
+                  color: const Color(0xFF5668FF),
                 ),
               ),
-              child: Center(
+              child: const Center(
                 child: Row(
                   mainAxisAlignment: MainAxisAlignment.center,
                   children: [
@@ -426,6 +452,7 @@ class BottomBar extends StatelessWidget {
     );
   }
 }
+
 class ServiceRequestDetails {
   final String title;
   final String brief;
