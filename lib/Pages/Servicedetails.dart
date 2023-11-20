@@ -18,6 +18,7 @@ class ServiceDetails extends StatefulWidget {
 
 class _ServiceDetailsState extends State<ServiceDetails> {
   ServiceRequestDetails? agency;
+  bool isBidsEmpty = true; // Assuming the initial state is empty
 
 
   @override
@@ -62,6 +63,7 @@ class _ServiceDetailsState extends State<ServiceDetails> {
       // Use setState to update the UI with the new agency
       setState(() {
         agency = newAgency;
+        isBidsEmpty = false; // Set loading to false when data is available
       });
 
       // Now you can use agency in your application
@@ -85,7 +87,11 @@ class _ServiceDetailsState extends State<ServiceDetails> {
   Widget build(BuildContext context) {
     var formattedStartDate = DateFormat.yMMMMd().format(agency!.Startdate );
     var formattedEndDate = DateFormat.yMMMMd().format(agency!.Enddate);
-    return MaterialApp(
+    return isBidsEmpty ?
+    Center(
+      child: CircularProgressIndicator(), // Show circular indicator
+    )
+        : MaterialApp(
       home: Scaffold(
         appBar: AppBar(
           title: Center(child: Text('Service Detail')),
@@ -228,10 +234,10 @@ class _ServiceDetailsState extends State<ServiceDetails> {
                     ],
                   ),
                   Divider(), // Divider after the column headers
-                  SizedBox(height: 5),
+                  SizedBox(height: 10),
                   // Sample Bidding Data
                   BiddingRow(agency!.bids),
-                  SizedBox(height: 5),
+                  SizedBox(height: 10),
                 ],
               ),
             ),
@@ -313,12 +319,21 @@ class BiddingRow extends StatelessWidget {
   Widget build(BuildContext context) {
     return Column(
       children: bids.map((bid) {
+        // print(bid['agency']['name']);
+        // print(bid['agency']['name']);
+        // print(bid['agency']['name']);
+        String formatDateTime(String dateTimeString) {
+          DateTime dateTime = DateTime.parse(dateTimeString);
+          return DateFormat.jm().format(dateTime); // "jm" format gives 12-hour time with AM/PM
+        }
         return Padding(
           padding: const EdgeInsets.symmetric(vertical: 5),
           child: Row(
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: [
-              Text(bid['place'] ?? '',
+              SizedBox(width: 15,),
+              // Assuming 'name' is the field you want to display for the bid
+              Text(bid['agency']['name'] ?? '',
                 textAlign: TextAlign.center,
                 style: TextStyle(
                   color: Color(0xFF667085),
@@ -328,8 +343,9 @@ class BiddingRow extends StatelessWidget {
                   height: 0.25,
                 ),
               ),
-              SizedBox(width: 25,),
-              Text(bid['bid'] ?? '',
+              SizedBox(width: 40,),
+              // Assuming 'price' is the field you want to display for the bid
+              Text('${bid['price']}' ?? '',
                 textAlign: TextAlign.center,
                 style: TextStyle(
                   color: Color(0xFF667085),
@@ -339,8 +355,11 @@ class BiddingRow extends StatelessWidget {
                   height: 0.25,
                 ),
               ),
-              SizedBox(width: 5,),
-              Text(bid['time'] ?? '',
+              SizedBox(width: 20,),
+
+              // Assuming 'createdAt' is the field you want to display for the bid time
+              Text(
+                formatDateTime(bid['agency']['createdAt'] ?? ''),
                 textAlign: TextAlign.center,
                 style: TextStyle(
                   color: Color(0xFF667085),
@@ -350,6 +369,7 @@ class BiddingRow extends StatelessWidget {
                   height: 0.25,
                 ),
               ),
+              SizedBox(height: 20),
             ],
           ),
         );
