@@ -40,8 +40,8 @@ class ServiceRequest {
         json['address'] != null ? new Address.fromJson(json['address']) : null;
     startDate = json['startDate'];
     endDate = json['endDate'];
-    lowestBudget = json['lowestBudget'];
-    highestBudget = json['highestBudget'];
+    lowestBudget = json['lowestBudget'].toDouble();
+    highestBudget = json['highestBudget'].toDouble();
     manPowerNeeded = json['manPowerNeeded'];
     requestApproval = json['requestApproval'];
     category = json['category'] != null
