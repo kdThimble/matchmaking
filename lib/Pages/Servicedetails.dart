@@ -91,10 +91,19 @@ class _ServiceDetailsState extends State<ServiceDetails> {
                     ),
                     Padding(
                       padding: const EdgeInsets.symmetric(horizontal: 10.0),
-                      child: TextButton(
-                        onPressed: () {
+                      child:  TextButton(
+                        onPressed: () async {
                           setState(() {
-                            isLoading = true;
+                            isLoading = false;
+                            int price = int.tryParse(priceController.text) ?? 0;
+                            String message = messageController.text;
+
+                            // Now, call the createBid function with the extracted values
+                            createBid(
+                              price: price,
+                              message: message,
+                              context: context,
+                            );
                           });
                         },
                         style: TextButton.styleFrom(
@@ -157,6 +166,7 @@ class _ServiceDetailsState extends State<ServiceDetails> {
       var endDate = DateTime.parse(data['endDate']);
       // Instantiate the ServiceRequestDetails object
       var newAgency = ServiceRequestDetails(
+        id: data['id'],
         title: data['title'],
         brief: data['brief'],
         address: data['address'],
@@ -189,6 +199,51 @@ class _ServiceDetailsState extends State<ServiceDetails> {
       print("Formatted End Date: $formattedEndDate");
     } else {
       print("in unsuccessful code");
+    }
+  }
+
+  Future<void> createBid({
+    required int price,
+    required String message,
+    required BuildContext context,
+  }) async {
+    final userProvider = Provider.of<AuthProvider>(context, listen: false);
+    final authToken = userProvider.token;
+
+    var headers = {
+      'Authorization': 'Bearer $authToken',
+      'Content-Type': 'application/json',
+    };
+
+    var request = http.Request(
+      'POST',
+      Uri.parse('https://eventmanagementproject.onrender.com/api/v1/bid/create'),
+    );
+    request.body = json.encode({
+      "serviceRequestId": agency?.id,
+      "price": price,
+      "message": message,
+    });
+    print("serviceid:${agency?.id}");
+    print("price:$price");
+    print("message:$message");
+    request.headers.addAll(headers);
+
+    http.StreamedResponse response = await request.send();
+
+    if (response.statusCode == 200) {
+      String responseBody = await response.stream.bytesToString();
+      print(responseBody);
+
+      // Navigate to ServiceDetails page upon success
+      Navigator.push(
+        context,
+        MaterialPageRoute(
+          builder: (context) => ServiceDetails(requestId: widget.requestId,), // Replace with your ServiceDetails widget
+        ),
+      );
+    } else {
+      print(response.reasonPhrase);
     }
   }
 
@@ -626,6 +681,7 @@ class BottomBar extends StatelessWidget {
 }
 
 class ServiceRequestDetails {
+  final String id;
   final String title;
   final String brief;
   final DateTime Startdate;
@@ -636,6 +692,7 @@ class ServiceRequestDetails {
   final List<Map<String, dynamic>> bids;
 
   ServiceRequestDetails({
+    required this.id,
     required this.title,
     required this.brief,
     required this.address,
